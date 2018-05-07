@@ -4,6 +4,8 @@ namespace MtgBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use MtgBundle\Entity\Card;
+use MtgBundle\Entity\CardSet;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class MtgService
@@ -79,6 +81,36 @@ class MtgService
         $this->em->flush();
 
         return $card;
+    }
+
+    public function getSets()
+    {
+        $sets = $this->getResultsFromUrl('https://api.scryfall.com/sets');
+        foreach($sets->data as $set) {
+            if(!$this->CardSetExists($set)) {
+                $this->saveSet($set);
+            }
+        }
+        return $sets;
+    }
+
+    public function CardSetExists($set)
+    {
+        return $this->em->getRepository('MtgBundle:CardSet')->findOneByCode($set->code);
+    }
+
+    public function saveSet($set)
+    {
+        $newSet = new CardSet();
+        $releaseDate = !empty($set->released_at) ? new \DateTime($set->released_at) : null;
+        $newSet
+            ->setName($set->name)
+            ->setCode($set->code)
+            ->setCardCount($set->card_count)
+            ->setReleaseDate($releaseDate);
+        $this->em->persist($newSet);
+        $this->em->flush();
+        return $newSet;
     }
 
     private function getResultsFromUrl($url)

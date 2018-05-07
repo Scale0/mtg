@@ -24,25 +24,37 @@ class DefaultController extends Controller
     public function getAllCards($set)
     {
         $continue = true;
-        $card = $this->get('mtg.mtg');
+        $mtg = $this->get('mtg.mtg');
         for($i = 1; $continue; $i++) {
-            $continue = $card->getCard($set, $i);
-
+            $continue = $mtg->getCard($set, $i);
         }
-        echo "alles op gehaald";
-        die();
+
+        return $this->render('MtgBundle:Default:index.html.twig');
     }
 
     /**
      * @param $set
      * @param $collectionId
      *
-     * @Route("/mtg/getCard/{set}/{collectionId}")
+     * @Route("/getCard/{set}/{collectionId}")
      * @return Card|false
      */
     public function getCard($set, $collectionId)
     {
-        var_dump($this->get('mtg.mtg')->getCard($set, $collectionId));
+        $card = $this->get('mtg.mtg')->getCard($set, $collectionId);
+        return $this->render('MtgBundle:Default:card.html.twig', ['card'=>$card]);
+    }
+
+    /**
+     * @Route("/getsets")
+     *
+     */
+    public function getSets()
+    {
+
+        $mtg = $this->get('mtg.mtg');
+
+        $sets = $mtg->getSets();
         die();
     }
 

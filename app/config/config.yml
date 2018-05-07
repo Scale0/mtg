@@ -2,8 +2,6 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@F1Bundle/Resources/config/services.yml" }
-    - { resource: "@ErgastBundle/Resources/config/services.yml" }
     - { resource: "@MtgBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -76,7 +74,7 @@ doctrine_cache:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: F1Bundle\Entity\User
+    user_class: MtgBundle\Entity\User
     from_email:
         address: 'sjoerddewaard@gmail.com'
         sender_name: 'Sjoerd'

@@ -18,9 +18,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
-            new F1Bundle\F1Bundle(),
             new MtgBundle\MtgBundle(),
-            new ErgastBundle\ErgastBundle(),
             new FOS\UserBundle\FOSUserBundle(),
         ];
 

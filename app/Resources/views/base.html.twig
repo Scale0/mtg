@@ -14,24 +14,18 @@
     <body>
         <div class="search-bar">
             <form method="GET" action="" class="js-sea-search sea-search">
-                <input type="search" name="q" placeholder="Search Sea Creatures" autocomplete="off" class="search-input">
+                <input type="search" name="q" placeholder="Zoek kaart in database" autocomplete="off" class="search-input">
             </form>
         </div>
         <header class="header">
-            <img class="logo-icon" src="{{ asset('images/aquanote-logo.png') }}">
-            <h1 class="logo">AquaNote</h1>
             <ul class="navi">
                 <li class="search"><a href="#" class="js-header-search-toggle"><i class="fa fa-search"></i></a></li>
-                <li><a href="#">Login</a></li>
+                <li><a href="http://127.0.0.1:8000/login">Login</a></li>
             </ul>
         </header>
 
         <div class="main-content">
             {% block body %}{% endblock %}
-        </div>
-
-        <div class="footer">
-            <p class="footer-text">Made with <span class="heart"><3</span> <a href="https://knpuniversity.com">KnpUniversity</a></p>
         </div>
 
         {% block javascripts %}

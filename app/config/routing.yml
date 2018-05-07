@@ -1,19 +1,14 @@
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
-ergast:
-    resource: "@ErgastBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 app:
-    resource: '@F1Bundle/Controller/'
+    resource: '@MtgBundle/Controller/'
     type: annotation
 
 home:
     path: /
     defaults:
-        _controller: F1Bundle:Main:homepage
+        _controller: MtgBundle:Default:index
 
 mtg:
     resource: "@MtgBundle/Controller/"

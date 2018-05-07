@@ -57,7 +57,8 @@ class Card
     private $mana_cost;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="CardSet", inversedBy="products")
+     * @ORM\Column(type="CardSet")
      */
     private $CardSet;
 
