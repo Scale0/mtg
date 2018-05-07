@@ -1,4 +1,2 @@
-aqua_note
+MTG
 =========
-
-A Symfony project created on October 19, 2017, 4:30 pm.
