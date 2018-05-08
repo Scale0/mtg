@@ -57,8 +57,7 @@ class Card
     private $mana_cost;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CardSet", inversedBy="products")
-     * @ORM\Column(type="CardSet")
+     * @ORM\ManyToOne(targetEntity="CardSet")
      */
     private $CardSet;
 
@@ -277,11 +276,11 @@ class Card
     }
 
     /**
-     * @param mixed $CardSet
+     * @param CardSet $CardSet
      *
      * @return $this
      */
-    public function setCardSet($CardSet)
+    public function setCardSet(CardSet $CardSet)
     {
         $this->CardSet = $CardSet;
 

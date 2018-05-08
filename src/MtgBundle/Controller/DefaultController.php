@@ -3,7 +3,7 @@
 namespace MtgBundle\Controller;
 
 use MtgBundle\Entity\Card;
-use MtgBundle\Service\CardService;
+use MtgBundle\Service\MtgCardService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -19,14 +19,14 @@ class DefaultController extends Controller
 
     /**
      *
-     * @Route("/mtg/getAllCards/{set}")
+     * @Route("/card/all/{set}")
      */
     public function getAllCards($set)
     {
         $continue = true;
-        $mtg = $this->get('mtg.mtg');
+        $card = $this->get('mtg.card');
         for($i = 1; $continue; $i++) {
-            $continue = $mtg->getCard($set, $i);
+            $continue = $card->get($set, $i);
         }
 
         return $this->render('MtgBundle:Default:index.html.twig');
@@ -36,41 +36,25 @@ class DefaultController extends Controller
      * @param $set
      * @param $collectionId
      *
-     * @Route("/getCard/{set}/{collectionId}")
+     * @Route("/card/get/{set}/{collectionId}")
      * @return Card|false
      */
     public function getCard($set, $collectionId)
     {
-        $card = $this->get('mtg.mtg')->getCard($set, $collectionId);
+        $card = $this->get('mtg.card')->get($set, $collectionId);
         return $this->render('MtgBundle:Default:card.html.twig', ['card'=>$card]);
     }
 
     /**
-     * @Route("/getsets")
-     *
+     * @Route("/set/get/all", name="getAllSets")
      */
-    public function getSets()
+    public function getAllSets()
     {
 
-        $mtg = $this->get('mtg.mtg');
+        $set = $this->get('mtg.set');
 
-        $sets = $mtg->getSets();
-        die();
+        $set->getSets();
+        return $this->render('MtgBundle:Default:index.html.twig');
     }
 
-    public function addCardToCollection($set, $collectionId)
-    {
-
-    }
-
-    private function getResultsFromUrl($url)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        CURL_SETOPT($ch, CURLOPT_URL, $url);
-        $result = curl_exec($ch);
-        #echo $result;
-        return json_decode($result);
-    }
 }

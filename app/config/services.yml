@@ -18,7 +18,12 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
-    mtg.mtg:
-        class: 'MtgBundle\Service\MtgService'
+    mtg.card:
+        class: 'MtgBundle\Service\MtgCardService'
+        public: true
+        arguments: [ "@doctrine.orm.entity_manager" ]
+
+    mtg.set:
+        class: 'MtgBundle\Service\MtgSetService'
         public: true
         arguments: [ "@doctrine.orm.entity_manager" ]

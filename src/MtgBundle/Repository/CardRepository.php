@@ -3,6 +3,7 @@
 namespace MtgBundle\Repository;
 
 use MtgBundle\Entity\Card;
+use MtgBundle\Entity\CardSet;
 
 /**
  * CardRepository
@@ -13,7 +14,8 @@ use MtgBundle\Entity\Card;
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * @param $circuitId
+     * @param CardSet $set
+     * @param integer $collection_id
      *
      * @return Card|object
      */
