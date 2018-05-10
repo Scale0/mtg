@@ -2,12 +2,10 @@
 
 namespace MtgBundle\Controller;
 
-use MtgBundle\Entity\Card;
-use MtgBundle\Service\MtgCardService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class DefaultController extends Controller
+class CardController extends Controller
 {
     /**
      * @Route("/")
@@ -25,8 +23,10 @@ class DefaultController extends Controller
     {
         $continue = true;
         $card = $this->get('mtg.card');
-        for($i = 1; $continue; $i++) {
+        $i = 1;
+        while($continue) {
             $continue = $card->get($set, $i);
+            $i++;
         }
 
         return $this->render('MtgBundle:Default:index.html.twig');
@@ -36,25 +36,16 @@ class DefaultController extends Controller
      * @param $set
      * @param $collectionId
      *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/card/get/{set}/{collectionId}")
-     * @return Card|false
      */
     public function getCard($set, $collectionId)
     {
-        $card = $this->get('mtg.card')->get($set, $collectionId);
-        return $this->render('MtgBundle:Default:card.html.twig', ['card'=>$card]);
+        $card = $this->get('mtg.card')
+            ->get($set, $collectionId)
+        ;
+
+        return $this->render('MtgBundle:Default:card.html.twig', ['card' => $card]);
     }
-
-    /**
-     * @Route("/set/get/all", name="getAllSets")
-     */
-    public function getAllSets()
-    {
-
-        $set = $this->get('mtg.set');
-
-        $set->getSets();
-        return $this->render('MtgBundle:Default:index.html.twig');
-    }
-
 }
