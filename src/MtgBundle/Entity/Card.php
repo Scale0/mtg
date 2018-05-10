@@ -42,6 +42,15 @@ class Card
     private $type_line;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $subtype;
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $oracle_text;
@@ -123,6 +132,23 @@ class Card
     {
         return $this->type_line;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubtype()
+    {
+        return $this->subtype;
+    }
+
 
     /**
      * @return mixed
@@ -235,6 +261,10 @@ class Card
     public function setTypeLine($type_line)
     {
         $this->type_line = $type_line;
+
+        $type = explode(" — ", $type_line);
+        $this->type = $type[0];
+        $this->subtype = !empty($type[1]) ? $type[1] : null;
 
         return $this;
     }

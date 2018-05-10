@@ -5,8 +5,6 @@
     "autoload": {
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
-            "F1Bundle\\": "src/F1Bundle",
-            "ErgastBundle\\": "src/ErgastBundle",
             "MtgBundle\\": "src/MtgBundle"
         },
         "classmap": [

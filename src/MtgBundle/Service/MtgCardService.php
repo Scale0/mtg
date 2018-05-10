@@ -13,7 +13,7 @@ use MtgBundle\Entity\CardSet;
 class MtgCardService extends MtgService
 {
     /**
-     * @param CardSet $cardSet
+     * @param string $cardSet
      * @param $collectionId
      *
      * @return bool|Card
@@ -50,6 +50,12 @@ class MtgCardService extends MtgService
             $flavor_text = !empty($newcard->card_faces[0]->flavor_text) ? $newcard->card_faces[0]->flavor_text : null;
             $mana_cost = $newcard->card_faces[0]->mana_cost;
             $color = $newcard->card_faces[0]->colors;
+            $power =
+                (!empty($newcard->card_faces[0]->loyalty) ?
+                    $newcard->card_faces[0]->loyalty :
+                    (!empty($newcard->card_face[0]->power) ?
+                        $newcard->card_face[0]->power:
+                        null));
         } else {
             $cardImage = $newcard->image_uris->normal;
             $type_line = $newcard->type_line;
@@ -57,6 +63,12 @@ class MtgCardService extends MtgService
             $flavor_text = !empty($newcard->flavor_text) ? $newcard->flavor_text : null;
             $mana_cost = $newcard->mana_cost;
             $color = $newcard->colors;
+            $power =
+                (!empty($newcard->loyalty) ?
+                    $newcard->loyalty :
+                    (!empty($newcard->power) ?
+                        $newcard->power :
+                        null));
         }
         $cardImage = strstr($cardImage, "?", true);
         $cardSet = $this->em->getRepository("MtgBundle:cardSet")->findOneByCode($newcard->set);
@@ -71,7 +83,7 @@ class MtgCardService extends MtgService
             ->setFlavorText($flavor_text)
             ->setManaCost($mana_cost)
             ->setRarity($newcard->rarity)
-            ->setPower(!empty($newcard->power) ? $newcard->power : null)
+            ->setPower(!empty($power) ? $power : null)
             ->setToughness(!empty($newcard->toughness) ? $newcard->toughness : null)
             ->setColors($color)
         ;

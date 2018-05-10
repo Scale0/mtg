@@ -17,7 +17,6 @@ class SetController extends Controller
      */
     public function getAllSets()
     {
-
         $set = $this->get('mtg.set');
 
         $set->getAll();

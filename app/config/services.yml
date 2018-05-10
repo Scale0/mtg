@@ -27,3 +27,8 @@ services:
         class: 'MtgBundle\Service\MtgSetService'
         public: true
         arguments: [ "@doctrine.orm.entity_manager" ]
+
+    mtg.collection:
+        class: 'MtgBundle\Service\MtgCollectionService'
+        public: true
+        arguments: [ "@doctrine.orm.entity_manager"]

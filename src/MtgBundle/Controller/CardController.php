@@ -21,12 +21,9 @@ class CardController extends Controller
      */
     public function getAllCards($set)
     {
-        $continue = true;
         $card = $this->get('mtg.card');
-        $i = 1;
-        while($continue) {
+        for($i = 1, $continue = true; $continue; $i++){
             $continue = $card->get($set, $i);
-            $i++;
         }
 
         return $this->render('MtgBundle:Default:index.html.twig');
@@ -46,6 +43,6 @@ class CardController extends Controller
             ->get($set, $collectionId)
         ;
 
-        return $this->render('MtgBundle:Default:card.html.twig', ['card' => $card]);
+        return $this->render('MtgBundle:Card:card.html.twig', ['card' => $card]);
     }
 }

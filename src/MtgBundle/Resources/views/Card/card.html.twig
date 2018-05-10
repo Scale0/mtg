@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table class="table">
+        <tr>
+            <td>
+                <img src="{{ card.imgUrl }}">
+            </td>
+            <td valign="top">
+                <table class="table">
+                    <tr>
+                        <td>Naam:</td>
+                        <td>{{ card.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Collectie ID:</td>
+                        <td>{{ card.collectionId }}</td>
+                    </tr>
+                    <tr>
+                        <td>set:</td>
+                        <td>{{ card.cardSet.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>zeldzaamheid:</td>
+                        <td>{{ card.rarity }}</td>
+                    </tr>
+                    <tr>
+                        <td>type:</td>
+                        <td>{{ card.type }}</td>
+                    </tr>
+                    <tr>
+                        <td>subtype:</td>
+                        <td>{{ card.subtype }}</td>
+                    </tr>
+                    <tr>
+                        <td>inhoudstekst:</td>
+                        <td>{{ card.oracleText }}</td>
+                    </tr>
+                    <tr>
+                        <td>Extra tekst:</td>
+                        <td>{{ card.flavorText }}</td>
+                    </tr>
+                    <tr>
+                        <td>mana:</td>
+                        <td>{{ card.manaCost }}</td>
+                    </tr>
+                    <tr>
+                        <td>power:</td>
+                        <td>{{ card.power }}</td>
+                    </tr>
+                    <tr>
+                        <td>toughness:</td>
+                        <td>{{ card.toughness }}</td>
+                    </tr>
+                    <tr>
+                        <td>kleuren:</td>
+                        <td>
+                            {% for color in card.colors %}
+                                { {{ color }} }
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
