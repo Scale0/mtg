@@ -22,10 +22,16 @@ class Collection
     private $id;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User")
      */
     private $user;
 
+    #region getters
     /**
      * Get id
      *
@@ -45,6 +51,16 @@ class Collection
     }
 
     /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    #endregion
+
+    #region setters
+    /**
      * @param mixed $user
      *
      * @return $this
@@ -55,6 +71,20 @@ class Collection
 
         return $this;
     }
+
+    /**
+     * @param mixed $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    #endregion
 
 }
 
