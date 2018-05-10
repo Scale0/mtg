@@ -23,6 +23,17 @@ class MtgSetService extends MtgService
         return $set ? $set : false;
     }
 
+    public function getAll()
+    {
+        $sets = $this->getResultsFromUrl('https://api.scryfall.com/sets');
+        foreach($sets->data as $set) {
+            if(!$this->CardSetExists($set)) {
+                $this->saveSet($set);
+            }
+        }
+        return $sets;
+    }
+
     /**
      * @param $code
      *
