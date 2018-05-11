@@ -21,6 +21,12 @@
                         <td>{{ card.cardSet.name }}</td>
                     </tr>
                     <tr>
+                        <td>mana:</td>
+                        <td>
+                            {{ card.manaCost|symbol }}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>zeldzaamheid:</td>
                         <td>{{ card.rarity }}</td>
                     </tr>
@@ -34,17 +40,11 @@
                     </tr>
                     <tr>
                         <td>inhoudstekst:</td>
-                        <td>{{ card.oracleText }}</td>
+                        <td>{{ card.oracleText|symbol }}</td>
                     </tr>
                     <tr>
                         <td>Extra tekst:</td>
                         <td>{{ card.flavorText }}</td>
-                    </tr>
-                    <tr>
-                        <td>mana:</td>
-                        <td>
-                            {{ card.manaCost }}
-                        </td>
                     </tr>
                     <tr>
                         <td>power:</td>

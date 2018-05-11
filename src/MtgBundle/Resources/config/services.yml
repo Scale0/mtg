@@ -1,4 +1,21 @@
 services:
-#    mtg.example:
-#        class: MtgBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    mtg.card:
+        class: 'MtgBundle\Service\MtgCardService'
+        public: true
+        arguments: [ "@doctrine.orm.entity_manager" ]
+
+    mtg.set:
+        class: 'MtgBundle\Service\MtgSetService'
+        public: true
+        arguments: [ "@doctrine.orm.entity_manager" ]
+
+    mtg.collection:
+        class: 'MtgBundle\Service\MtgCollectionService'
+        public: true
+        arguments: [ "@doctrine.orm.entity_manager"]
+
+    mtg.symbol_extension:
+        class: MtgBundle\Twig\MtgSymbolExtension
+        tags:
+            - { name: twig.extension }
+        autowire: true
