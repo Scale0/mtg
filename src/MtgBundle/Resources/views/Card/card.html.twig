@@ -42,7 +42,9 @@
                     </tr>
                     <tr>
                         <td>mana:</td>
-                        <td>{{ card.manaCost }}</td>
+                        <td>
+                            {{ card.manaCost }}
+                        </td>
                     </tr>
                     <tr>
                         <td>power:</td>
@@ -55,9 +57,8 @@
                     <tr>
                         <td>kleuren:</td>
                         <td>
-                            {{ source('images/fire.svg') }}
                             {% for color in card.colors %}
-                                { {{ color }} }
+                                <img class="symbol" src="{{ asset('images/symbols/mana/' ~ color ~'.svg') }}">
                             {% endfor %}
                         </td>
                     </tr>
