@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for card in cards %}
+        {{ card.name }} <br />
+        {% endfor %}
+{% endblock %}

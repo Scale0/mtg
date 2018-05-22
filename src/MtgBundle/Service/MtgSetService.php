@@ -58,6 +58,7 @@ class MtgSetService extends MtgService
             ->setName($set->name)
             ->setCode($set->code)
             ->setCardCount($set->card_count)
+            ->setIcon($set->icon_svg_uri)
             ->setReleaseDate($releaseDate);
         $this->em->persist($newSet);
         $this->em->flush();

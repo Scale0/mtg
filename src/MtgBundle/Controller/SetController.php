@@ -21,6 +21,6 @@ class SetController extends Controller
 
         $set->getAll();
 
-        return $this->render('MtgBundle:Default:index.html.twig');
+        return $this->render('MtgBundle:Card:index.html.twig');
     }
 }

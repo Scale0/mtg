@@ -43,6 +43,16 @@ class CardController extends Controller
             ->get($set, $collectionId)
         ;
 
-        return $this->render('MtgBundle:Card:card.html.twig', ['card' => $card]);
+        $extraInfo = $this->get('mtg.extrainfo');
+        $rules = $extraInfo->getCardRules($card);
+        $pricing = $extraInfo->getCardPricing($card);
+        $legality = $extraInfo->getCardLegality($card);
+
+        return $this->render('MtgBundle:Card:card.html.twig', [
+            'card' => $card,
+            'rules' => $rules,
+            'pricing' => $pricing,
+            'legality' => $legality
+        ]);
     }
 }

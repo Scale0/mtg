@@ -1,0 +1,7 @@
+
+{% for rule in rules %}
+    {{ rule.published }}: <br />
+    <div class="alert-info">
+        {{ rule.comment|symbol }}
+    </div>
+{% endfor %}

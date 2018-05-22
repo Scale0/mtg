@@ -15,13 +15,13 @@ class MtgService
     }
 
 
-    protected function getResultsFromUrl($url)
+    protected function getResultsFromUrl($url, $assoc = false)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         CURL_SETOPT($ch, CURLOPT_URL, $url);
         $result = curl_exec($ch);
-        return json_decode($result);
+        return json_decode($result, $assoc);
     }
 }

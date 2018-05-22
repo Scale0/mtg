@@ -1,0 +1,21 @@
+<div class="col-md-2">
+    <div class="list-group">
+        {% set i = 0 %}
+    {% for key, value in legality %}
+        {% if i == legality|length / 2 %}
+    </div>
+</div>
+<div class="col-md-2">
+    <div class="list-group">
+        {% endif %}
+        {% set i = i + 1 %}
+        {% set class="success" %}
+        {% if value == 'not_legal' %}
+            {% set class='danger' %}
+        {% endif %}
+        <span href="#" class="list-group-item list-group-item-action list-group-item-{{ class }}">
+            {{ key }}
+        </span>
+    {% endfor %}
+    </div>
+</div>

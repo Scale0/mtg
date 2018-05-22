@@ -17,7 +17,6 @@ class MtgCardService extends MtgService
      * @param $collectionId
      *
      * @return bool|Card
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function get($cardSet, $collectionId)
     {
@@ -48,7 +47,7 @@ class MtgCardService extends MtgService
             $type_line = $newcard->card_faces[0]->type_line;
             $oracle_text = !empty($newcard->card_faces[0]->oracle_text) ? $newcard->card_faces[0]->oracle_text : null;
             $flavor_text = !empty($newcard->card_faces[0]->flavor_text) ? $newcard->card_faces[0]->flavor_text : null;
-            $mana_cost = $newcard->card_faces[0]->mana_cost;
+            $mana_cost = str_replace('/', '', $newcard->card_faces[0]->mana_cost);
             $color = $newcard->card_faces[0]->colors;
             $power =
                 (!empty($newcard->card_faces[0]->loyalty) ?
@@ -61,7 +60,7 @@ class MtgCardService extends MtgService
             $type_line = $newcard->type_line;
             $oracle_text = !empty($newcard->oracle_text) ? $newcard->oracle_text : null;
             $flavor_text = !empty($newcard->flavor_text) ? $newcard->flavor_text : null;
-            $mana_cost = $newcard->mana_cost;
+            $mana_cost = str_replace('/', '', $newcard->mana_cost);
             $color = $newcard->colors;
             $power =
                 (!empty($newcard->loyalty) ?

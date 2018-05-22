@@ -51,7 +51,7 @@ class Card
      */
     private $subtype;
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $oracle_text;
 

@@ -12,6 +12,11 @@ services:
     mtg.collection:
         class: 'MtgBundle\Service\MtgCollectionService'
         public: true
+        arguments: [ "@doctrine.orm.entity_manager", "@mtg.card"]
+
+    mtg.extrainfo:
+        class: 'MtgBundle\Service\MtgExtraLiveDataService'
+        public: true
         arguments: [ "@doctrine.orm.entity_manager"]
 
     mtg.symbol_extension:

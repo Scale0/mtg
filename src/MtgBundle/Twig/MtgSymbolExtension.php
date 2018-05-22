@@ -15,9 +15,10 @@ class MtgSymbolExtension extends \Twig_Extension
 
     public function parseSymbol($str)
     {
+        $str = str_replace('/','', $str);
         $str = preg_replace(
-            "/{(.*?)}/",
-            "<img class=\"symbol\" src=\"" . self::IMG_PATH . "$1.svg\">",
+            "/{[A-Za-z0-9]{1}\/[A-Za-z0-9]{1}}|{(.*?)}/",
+            "<img class=\"symbol\" alt=\"$1\" src=\"" . self::IMG_PATH . "$1.svg\">",
             $str
         );
         $str = str_replace('
