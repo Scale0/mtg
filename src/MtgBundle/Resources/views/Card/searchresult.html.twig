@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {% for result in results.data %}
+        <a href="{{ path('mtg_card_getcard', {'set': result.set, 'collectionId': result.collector_number}) }}">
+            {% if result.card_faces is defined %}
+                {% set img = result.card_faces[0].image_uris.small %}
+            {% else %}
+                {% set img = result.image_uris.small %}
+            {% endif %}
+            <img src="{{ img }}">
+        </a>
+    {% endfor %}
+{% endblock %}

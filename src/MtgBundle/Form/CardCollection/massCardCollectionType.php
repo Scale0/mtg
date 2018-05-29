@@ -15,7 +15,7 @@ class massCardCollectionType extends AbstractType
     {
         $builder
             ->add('set', TextareaType::class)
-            ->add('name', TextareaType::class);
+            ->add('string', TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

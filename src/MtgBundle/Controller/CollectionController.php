@@ -28,9 +28,9 @@ class CollectionController extends Controller
             ->getUser()
         ;
 
-        $collectedCard = $collection->addCardToCollection($card, $user);
+        $collection->addCardToCollection($card, $user);
 
-        var_dump($collectedCard);die();
+        return $this->getCollection();
     }
 
     /**
@@ -54,13 +54,26 @@ class CollectionController extends Controller
     }
 
     /**
+     * @param $collectionId
+     * @Route("/collection/del/{collectionId}")
+     */
+    public function removeFromCollection($collectionId)
+    {
+        $collectionRow = $this->get('mtg.collection')->get($collectionId);
+        $user = $this->getUser();
+        $this->get('mtg.collection')->removeCardFromCollection($collectionRow, $user);
+
+        return $this->getCollection();
+    }
+
+    /**
      * @return mixed
      * @Route("/collection")
      */
     public function getCollection()
     {
-        $cards = $this->get('mtg.collection')->getCards($this->getUser());
+        $collectionRows = $this->get('mtg.collection')->getRows($this->getUser());
 
-        return $this->render('MtgBundle:Collection:collection.html.twig', ['cards' => $cards]);
+        return $this->render('MtgBundle:Collection:collection.html.twig', ['collectionRows' => $collectionRows]);
     }
 }

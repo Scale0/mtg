@@ -13,7 +13,7 @@
     </head>
     <body>
         <div class="search-bar">
-            <form method="GET" action="" class="js-sea-search sea-search">
+            <form method="POST" action="{{ path('mtg_card_searchcard', {'query': 'x'}) }}" class="js-sea-search sea-search">
                 <input type="search" name="q" placeholder="Zoek kaart in database" autocomplete="off" class="search-input">
             </form>
         </div>
@@ -29,7 +29,11 @@
         </div>
 
         {% block javascripts %}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
             <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
             <script src="{{ asset('js/main.js') }}"></script>
         {% endblock %}
     </body>

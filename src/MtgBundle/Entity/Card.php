@@ -90,6 +90,11 @@ class Card
      */
     private $colors;
 
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $legality;
+
     #region getters
     /**
      * Get id
@@ -175,7 +180,7 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return CardSet
      */
     public function getCardSet()
     {
@@ -207,11 +212,16 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return json_array
      */
     public function getColors()
     {
         return $this->colors;
+    }
+
+    public function getLegality()
+    {
+        return $this->legality;
     }
 
     #endregion
@@ -361,6 +371,13 @@ class Card
     public function setColors($colors)
     {
         $this->colors = $colors;
+
+        return $this;
+    }
+
+    public function setLegality($legality)
+    {
+        $this->legality = $legality;
 
         return $this;
     }

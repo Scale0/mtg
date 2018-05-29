@@ -4,6 +4,7 @@ namespace MtgBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class CardController extends Controller
 {
@@ -12,7 +13,7 @@ class CardController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('MtgBundle:Default:index.html.twig');
+        return $this->render('MtgBundle:Card:index.html.twig');
     }
 
     /**
@@ -21,12 +22,28 @@ class CardController extends Controller
      */
     public function getAllCards($set)
     {
-        $card = $this->get('mtg.card');
         for($i = 1, $continue = true; $continue; $i++){
-            $continue = $card->get($set, $i);
+            $continue = $this->get('mtg.card')->get($set, $i);
         }
 
         return $this->render('MtgBundle:Default:index.html.twig');
+    }
+
+    /**
+     * @param $query
+     * @Route("/card/search/{query}")
+     */
+    public function searchCard($query = '')
+    {
+        $cardService = $this->get('mtg.card');
+        $search = Request::createFromGlobals()->request->get('q');
+        if (!empty($search)) {
+            $results = $cardService->searchCard($search);
+        } else {
+            $results = $cardService->searchCard($query);
+        }
+
+        return $this->render('MtgBundle:Card:searchresult.html.twig', ['results' => $results]);
     }
 
     /**
@@ -43,16 +60,12 @@ class CardController extends Controller
             ->get($set, $collectionId)
         ;
 
-        $extraInfo = $this->get('mtg.extrainfo');
-        $rules = $extraInfo->getCardRules($card);
-        $pricing = $extraInfo->getCardPricing($card);
-        $legality = $extraInfo->getCardLegality($card);
+        $collectedCount = $this->get('mtg.collection')->getCountByUserAndCard($this->getUser(), $card);
 
         return $this->render('MtgBundle:Card:card.html.twig', [
             'card' => $card,
-            'rules' => $rules,
-            'pricing' => $pricing,
-            'legality' => $legality
+            'collectedCount' => count($collectedCount),
+            'legality' => $card->getLegality()
         ]);
     }
 }

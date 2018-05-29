@@ -5,6 +5,7 @@ namespace MtgBundle\Service;
 use MtgBundle\Entity\Card;
 use MtgBundle\Entity\CardCollection;
 use Doctrine\ORM\EntityManager;
+use MtgBundle\Entity\User;
 
 class MtgCollectionService extends MtgService
 {
@@ -15,7 +16,24 @@ class MtgCollectionService extends MtgService
         parent::__construct($entityManager);
     }
 
-    public function addCardToCollection($card, $user)
+    /**
+     * @param $id
+     *
+     * @return CardCollection|null
+     */
+    public function get($id)
+    {
+        return $this->em->getRepository('MtgBundle:CardCollection')->find($id);
+    }
+
+    /**
+     * @param Card $card
+     * @param User $user
+     *
+     * @return CardCollection
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function addCardToCollection(Card $card, User $user)
     {
         $collectedCard = new CardCollection();
 
@@ -29,7 +47,41 @@ class MtgCollectionService extends MtgService
 
     }
 
-    public function addArrayToCollection($set, $cards, $user)
+    /**
+     * @param User $user
+     * @param Card $card
+     *
+     * @return array|CardCollection[]
+     */
+    public function getCountByUserAndCard(User $user, Card $card)
+    {
+        $cards = $this->em->getRepository('MtgBundle:CardCollection')->findBy(['user' => $user, 'card' => $card]);
+
+        return $cards;
+    }
+
+    /**
+     * @param CardCollection $collectionRow
+     * @param User           $user
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function removeCardFromCollection(CardCollection $collectionRow, User $user)
+    {
+        if ($collectionRow->getUser() == $user) {
+            $this->em->remove($collectionRow);
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * @param           $set
+     * @param array     $cards
+     * @param User      $user
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function addArrayToCollection($set, array $cards, User $user)
     {
         foreach($cards as $cardId) {
             $card = $this->cardService->get($set, intval($cardId));
@@ -41,21 +93,27 @@ class MtgCollectionService extends MtgService
         $this->em->flush();
     }
 
-    public function get($user)
+    /**
+     * @param $user
+     *
+     * @return array|CardCollection[]
+     */
+    public function getByUser(User $user)
     {
-        $fromCollection = $this->em->getRepository('MtgBundle:CardCollection')->findAll(['user' => $user]);
+        $fromCollection = $this->em->getRepository('MtgBundle:CardCollection')->findBy(['user' => $user]);
 
         return $fromCollection;
     }
 
-    public function getCards($user)
+    /**
+     * @param User $user
+     *
+     * @return array|CardCollection[]
+     */
+    public function getRows(User $user)
     {
-        $fromCollection = $this->get($user);
-        foreach($fromCollection as $card) {
-            $cards[] = $card->getCard();
-        }
-
-        return $cards;
+        $fromCollection = $this->getByUser($user);
+        return $fromCollection;
     }
 
 }

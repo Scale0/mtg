@@ -19,26 +19,4 @@ class MtgExtraLiveDataService extends MtgService
         }
         return $newrule;
     }
-
-    public function getCardPricing(Card $card)
-    {
-        $card = $this->getResultsFromUrl('https://api.scryfall.com/cards/' . $card->getCardSet()->getCode() . '/' . $card->getCollectionId());
-
-        if (!empty($card->card_faces) && is_array($card->card_faces)) {
-            $returnvalues['usd'] = $card->card_faces[0]->usd;
-            $returnvalues['eur'] = $card->card_faces[0]->eur;
-        } else {
-            $returnvalues['usd'] = $card->usd;
-            $returnvalues['eur'] = $card->eur;
-        }
-        return $returnvalues;
-    }
-
-    public function getCardLegality(Card $card)
-    {
-        $card = $this->getResultsFromUrl('https://api.scryfall.com/cards/' . $card->getCardSet()->getCode() . '/' . $card->getCollectionId(), true);
-
-        return !empty($card['card_faces']) && is_array($card['card_faces']) ? $card['card_faces'][0]['legalities'] : $card['legalities'];
-
-    }
 }

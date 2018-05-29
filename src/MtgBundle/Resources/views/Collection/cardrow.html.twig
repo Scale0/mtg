@@ -1,0 +1,18 @@
+<tr>
+    <td><a data-toggle="popover" data-img="{{ collectionRow.card.cardSet.code }}/{{ collectionRow.card.collectionId }}" href="{{ path('mtg_card_getcard', {'set': collectionRow.card.cardSet.code, 'collectionId': collectionRow.card.CollectionId}) }}">{{ collectionRow.card.name }}</a></td>
+    <td><img class="symbol" src="{{ collectionRow.card.cardSet.icon }}"> {{ collectionRow.card.cardSet.name }}</td>
+    <td>{{ collectionRow.card.rarity }}</td>
+    <td>
+        {% if collectionRow.card.colors is not empty %}
+            {% for color in collectionRow.card.colors %}
+                    <img class="symbol" src="{{ asset('images/symbols/mana/' ~ color ~'.svg') }}">
+            {% endfor %}
+        {% endif %}
+    </td>
+    <td>
+        <div class="btn-group btn-group-xs">
+            <a class="btn btn-success" href="{{ path('mtg_collection_addcardtocollection', {'setCode': collectionRow.card.cardSet.code, 'collectionId': collectionRow.card.CollectionId}) }}">+1</a>
+            <a class="btn btn-danger" href="{{ path('mtg_collection_removefromcollection', {'collectionId': collectionRow.id}) }}">x</a>
+        </div>
+    </td>
+</tr>
