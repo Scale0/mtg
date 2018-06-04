@@ -30,13 +30,13 @@ class CollectionController extends Controller
 
         $collection->addCardToCollection($card, $user);
 
-        return $this->getCollection();
+        return $this->redirectToRoute('mtg_collection_getcollection');
     }
 
     /**
-     * @Route("/collection/create")
+     * @Route("/collection/massAdd")
      */
-    public function createCollection(Request $request)
+    public function massAddToCollection(Request $request)
     {
         $form = $this->createForm(massCardCollectionType::class);
         $form->handleRequest($request);
@@ -48,6 +48,7 @@ class CollectionController extends Controller
 
             $this->get('mtg.collection')
                 ->addArrayToCollection($cardSet, $cardArray, $this->getUser());
+            return $this->redirectToRoute('mtg_collection_getcollection');
         }
 
         return $this->render('MtgBundle:Collection:create.html.twig', ['form' => $form->createView()]);
@@ -63,7 +64,7 @@ class CollectionController extends Controller
         $user = $this->getUser();
         $this->get('mtg.collection')->removeCardFromCollection($collectionRow, $user);
 
-        return $this->getCollection();
+        return $this->redirectToRoute('mtg_collection_getcollection');
     }
 
     /**

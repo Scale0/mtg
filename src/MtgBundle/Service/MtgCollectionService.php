@@ -64,11 +64,10 @@ class MtgCollectionService extends MtgService
      * @param CardCollection $collectionRow
      * @param User           $user
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function removeCardFromCollection(CardCollection $collectionRow, User $user)
     {
-        if ($collectionRow->getUser() == $user) {
+        if ($collectionRow->getUser() === $user) {
             $this->em->remove($collectionRow);
             $this->em->flush();
         }
@@ -79,7 +78,6 @@ class MtgCollectionService extends MtgService
      * @param array     $cards
      * @param User      $user
      *
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function addArrayToCollection($set, array $cards, User $user)
     {
@@ -100,7 +98,7 @@ class MtgCollectionService extends MtgService
      */
     public function getByUser(User $user)
     {
-        $fromCollection = $this->em->getRepository('MtgBundle:CardCollection')->findBy(['user' => $user]);
+        $fromCollection = $this->em->getRepository('MtgBundle:CardCollection')->findByUser($user);
 
         return $fromCollection;
     }

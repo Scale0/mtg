@@ -5,12 +5,12 @@ namespace MtgBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Collection
+ * DeckCards
  *
- * @ORM\Table(name="Collection")
- * @ORM\Entity(repositoryClass="MtgBundle\Repository\CollectionRepository")
+ * @ORM\Table(name="deck_cards")
+ * @ORM\Entity(repositoryClass="MtgBundle\Repository\DeckCardsRepository")
  */
-class Collection
+class DeckCards
 {
     /**
      * @var int
@@ -22,14 +22,14 @@ class Collection
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="MtgBundle\Entity\Deck")
      */
-    private $name;
+    private $deck;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="MtgBundle\Entity\Card")
      */
-    private $user;
+    private $card;
 
     #region getters
     /**
@@ -43,48 +43,50 @@ class Collection
     }
 
     /**
-     * @return mixed
+     * @return Deck
      */
-    public function getUser()
+    public function getDeck()
     {
-        return $this->user;
+        return $this->deck;
     }
 
     /**
-     * @return mixed
+     * @return Card
      */
-    public function getName()
+    public function getCard()
     {
-        return $this->name;
+        return $this->card;
     }
     #endregion
 
     #region setters
+
+
     /**
-     * @param mixed $user
+     * @param mixed $deck
      *
      * @return $this
      */
-    public function setUser($user)
+    public function setDeck($deck)
     {
-        $this->user = $user;
+        $this->deck = $deck;
 
         return $this;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $card
      *
      * @return $this
      */
-    public function setName($name)
+    public function setCard($card)
     {
-        $this->name = $name;
+        $this->card = $card;
 
         return $this;
     }
-
     #endregion
+
 
 }
 

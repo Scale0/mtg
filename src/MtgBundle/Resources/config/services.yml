@@ -19,6 +19,11 @@ services:
         public: true
         arguments: [ "@doctrine.orm.entity_manager"]
 
+    mtg.deck:
+        class: 'MtgBundle\Service\MtgDeckService'
+        public: true
+        arguments: [ "@doctrine.orm.entity_manager"]
+
     mtg.symbol_extension:
         class: MtgBundle\Twig\MtgSymbolExtension
         tags:

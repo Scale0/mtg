@@ -10,4 +10,7 @@ namespace MtgBundle\Repository;
  */
 class CardCollectionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByUser($user) {
+        return $this->findBy(['user' => $user]);
+    }
 }

@@ -5,12 +5,12 @@ namespace MtgBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Collection
+ * Deck
  *
- * @ORM\Table(name="Collection")
- * @ORM\Entity(repositoryClass="MtgBundle\Repository\CollectionRepository")
+ * @ORM\Table(name="deck")
+ * @ORM\Entity(repositoryClass="MtgBundle\Repository\DeckRepository")
  */
-class Collection
+class Deck
 {
     /**
      * @var int
@@ -22,14 +22,14 @@ class Collection
     private $id;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    private $name;
-
-    /**
      * @ORM\ManyToOne(targetEntity="User")
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
 
     #region getters
     /**
@@ -57,9 +57,11 @@ class Collection
     {
         return $this->name;
     }
+
     #endregion
 
     #region setters
+
     /**
      * @param mixed $user
      *
@@ -83,7 +85,6 @@ class Collection
 
         return $this;
     }
-
     #endregion
 
 }

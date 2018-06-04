@@ -31,16 +31,17 @@ class CardController extends Controller
 
     /**
      * @param $query
-     * @Route("/card/search/{query}")
+     * @Route("/card/search")
      */
-    public function searchCard($query = '')
+    public function searchCard()
     {
         $cardService = $this->get('mtg.card');
         $search = Request::createFromGlobals()->request->get('q');
+        if ($search  == null) {
+            return $this->redirectToRoute('mtg_collection_getcollection');
+        }
         if (!empty($search)) {
             $results = $cardService->searchCard($search);
-        } else {
-            $results = $cardService->searchCard($query);
         }
 
         return $this->render('MtgBundle:Card:searchresult.html.twig', ['results' => $results]);

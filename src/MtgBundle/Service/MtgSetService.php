@@ -23,6 +23,10 @@ class MtgSetService extends MtgService
         return $set ? $set : false;
     }
 
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function getAll()
     {
         $sets = $this->getResultsFromUrl('https://api.scryfall.com/sets');

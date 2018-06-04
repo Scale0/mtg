@@ -13,7 +13,7 @@ class SetController extends Controller
     }
 
     /**
-     * @Route("/set/get/all", name="getAllSets")
+     * @Route("/set/get/all")
      */
     public function getAllSets()
     {
