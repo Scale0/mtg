@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form, {attr: {class: 'my-form-class'} }) }}
+    {{ form_widget(form) }}
+    <input type="submit" class="btn-default" value="Create" />
+    {{ form_end(form) }}
+
+{% endblock %}

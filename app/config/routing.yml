@@ -8,7 +8,7 @@ app:
 home:
     path: /
     defaults:
-        _controller: MtgBundle:Default:index
+        _controller: MtgBundle:Card:index
 
 mtg:
     resource: "@MtgBundle/Controller/"

@@ -23,6 +23,10 @@ class MtgSetService extends MtgService
         return $set ? $set : false;
     }
 
+    /**
+     * @return mixed
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function getAll()
     {
         $sets = $this->getResultsFromUrl('https://api.scryfall.com/sets');
@@ -58,6 +62,7 @@ class MtgSetService extends MtgService
             ->setName($set->name)
             ->setCode($set->code)
             ->setCardCount($set->card_count)
+            ->setIcon($set->icon_svg_uri)
             ->setReleaseDate($releaseDate);
         $this->em->persist($newSet);
         $this->em->flush();

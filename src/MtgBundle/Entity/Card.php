@@ -42,7 +42,16 @@ class Card
     private $type_line;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
+     */
+    private $subtype;
+    /**
+     * @ORM\Column(type="text", nullable=true)
      */
     private $oracle_text;
 
@@ -80,6 +89,11 @@ class Card
      * @ORM\Column(type="json_array")
      */
     private $colors;
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $legality;
 
     #region getters
     /**
@@ -127,6 +141,23 @@ class Card
     /**
      * @return mixed
      */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubtype()
+    {
+        return $this->subtype;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getOracleText()
     {
         return $this->oracle_text;
@@ -149,7 +180,7 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return CardSet
      */
     public function getCardSet()
     {
@@ -181,11 +212,16 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return json_array
      */
     public function getColors()
     {
         return $this->colors;
+    }
+
+    public function getLegality()
+    {
+        return $this->legality;
     }
 
     #endregion
@@ -235,6 +271,10 @@ class Card
     public function setTypeLine($type_line)
     {
         $this->type_line = $type_line;
+
+        $type = explode(" — ", $type_line);
+        $this->type = $type[0];
+        $this->subtype = !empty($type[1]) ? $type[1] : null;
 
         return $this;
     }
@@ -331,6 +371,13 @@ class Card
     public function setColors($colors)
     {
         $this->colors = $colors;
+
+        return $this;
+    }
+
+    public function setLegality($legality)
+    {
+        $this->legality = $legality;
 
         return $this;
     }

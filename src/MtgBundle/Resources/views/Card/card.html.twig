@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container"><h1>{{ card.name }} - {{ card.type }} — {{ card.subtype }}</h1></div>
+
+    <div id="exTab2" class="container">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a  href="#1" data-toggle="tab">Overview</a>
+            </li>
+            <li>
+                <a href="#2" data-toggle="tab">Ruling</a>
+            </li>
+            <li>
+                <a href="#3" data-toggle="tab">legality</a>
+            </li>
+        </ul>
+        <div class="tab-content ">
+            <div class="tab-pane active" id="1">
+                {% include 'MtgBundle:Card:overview.html.twig' with {'card': card} %}
+            </div>
+            {#
+            <div class="tab-pane" id="2">
+                {% include 'MtgBundle:Card:ruling.html.twig' with {'ruling': rules } %}
+            </div>
+            #}
+            <div class="tab-pane" id="3">
+                {% include 'MtgBundle:Card:legality.html.twig' with {'legality': legality} %}
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+{% endblock %}

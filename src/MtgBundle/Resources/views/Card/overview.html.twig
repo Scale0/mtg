@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="{{ asset(card.imgUrl) }}">
+        </div>
+        <div class="col-md-5">
+            <table class="table">
+                <tr>
+                    <td>Naam:</td>
+                    <td>{{ card.name }}</td>
+                </tr>
+                {% if is_granted('ROLE_USER') %}
+                    {% if collectedCount > 0 %}
+                        <tr>
+                            <td colspan="2">
+                                je hebt deze kaart {{ collectedCount }} keer!
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td colspan="2">
+                            <a href="{{ path('mtg_collection_addcardtocollection', {'setCode': card.cardSet.code, 'collectionId': card.CollectionId}) }}">Deze heb ik!</a></td>
+                    </tr>
+                {%  endif %}
+                <tr>
+                    <td>Collectie ID:</td>
+                    <td>{{ card.collectionId }}</td>
+                </tr>
+                <tr>
+                    <td>set:</td>
+                    <td><img class="symbol" src="{{ card.cardSet.icon }}"> {{ card.cardSet.name }}</td>
+                </tr>
+                <tr>
+                    <td>mana:</td>
+                    <td>
+                        {{ card.manaCost|symbol }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Rarity:</td>
+                    <td>{{ card.rarity }}</td>
+                </tr>
+                <tr>
+                    <td>type:</td>
+                    <td>{{ card.type }}</td>
+                </tr>
+                <tr>
+                    <td>subtype:</td>
+                    <td>{{ card.subtype }}</td>
+                </tr>
+                <tr>
+                    <td>inhoudstekst:</td>
+                    <td>{{ card.oracleText|symbol }}</td>
+                </tr>
+                {% if card.flavorText %}
+                <tr>
+                    <td>Extra tekst:</td>
+                    <td><i>{{ card.flavorText }}</i></td>
+                </tr>
+                {% endif %}
+                {% if card.power %}
+                <tr>
+                    <td>power:</td>
+                    <td>{{ card.power }}</td>
+                </tr>
+                {% endif %}
+                {% if card.toughness %}
+                <tr>
+                    <td>toughness:</td>
+                    <td>{{ card.toughness }}</td>
+                </tr>
+                {% endif %}
+                {% if card.colors is not empty %}
+                <tr>
+                    <td>kleuren:</td>
+                    <td>
+                        {% for color in card.colors %}
+                            <img class="symbol" src="{{ asset('images/symbols/mana/' ~ color ~'.svg') }}">
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>

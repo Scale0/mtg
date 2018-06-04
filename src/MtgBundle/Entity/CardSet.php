@@ -43,6 +43,10 @@ class CardSet
      */
     private $cardCount;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $icon;
     #endregion
 
     #region getters
@@ -87,6 +91,15 @@ class CardSet
     {
         return $this->cardCount;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
 
     #endregion
 
@@ -136,6 +149,18 @@ class CardSet
     public function setCardCount($cardCount)
     {
         $this->cardCount = $cardCount;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $icon
+     *
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
 
         return $this;
     }

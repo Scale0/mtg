@@ -1,6 +1,6 @@
 <?php
 
-namespace MtgBundle\Form;
+namespace MtgBundle\Form\CardCollection;
 
 use MtgBundle\Entity\Collection;
 use Symfony\Component\Form\AbstractType;
@@ -9,12 +9,13 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CollectionType extends AbstractType
+class massCardCollectionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextareaType::class);
+            ->add('set', TextareaType::class)
+            ->add('string', TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

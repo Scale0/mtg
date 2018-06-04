@@ -4,6 +4,7 @@ namespace MtgBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class CardController extends Controller
 {
@@ -12,7 +13,7 @@ class CardController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('MtgBundle:Default:index.html.twig');
+        return $this->render('MtgBundle:Card:index.html.twig');
     }
 
     /**
@@ -21,15 +22,29 @@ class CardController extends Controller
      */
     public function getAllCards($set)
     {
-        $continue = true;
-        $card = $this->get('mtg.card');
-        $i = 1;
-        while($continue) {
-            $continue = $card->get($set, $i);
-            $i++;
+        for($i = 1, $continue = true; $continue; $i++){
+            $continue = $this->get('mtg.card')->get($set, $i);
         }
 
         return $this->render('MtgBundle:Default:index.html.twig');
+    }
+
+    /**
+     * @param $query
+     * @Route("/card/search")
+     */
+    public function searchCard()
+    {
+        $cardService = $this->get('mtg.card');
+        $search = Request::createFromGlobals()->request->get('q');
+        if ($search  == null) {
+            return $this->redirectToRoute('mtg_collection_getcollection');
+        }
+        if (!empty($search)) {
+            $results = $cardService->searchCard($search);
+        }
+
+        return $this->render('MtgBundle:Card:searchresult.html.twig', ['results' => $results]);
     }
 
     /**
@@ -46,6 +61,12 @@ class CardController extends Controller
             ->get($set, $collectionId)
         ;
 
-        return $this->render('MtgBundle:Default:card.html.twig', ['card' => $card]);
+        $collectedCount = $this->get('mtg.collection')->getCountByUserAndCard($this->getUser(), $card);
+
+        return $this->render('MtgBundle:Card:card.html.twig', [
+            'card' => $card,
+            'collectedCount' => count($collectedCount),
+            'legality' => $card->getLegality()
+        ]);
     }
 }

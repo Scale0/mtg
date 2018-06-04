@@ -13,15 +13,14 @@ class SetController extends Controller
     }
 
     /**
-     * @Route("/set/get/all", name="getAllSets")
+     * @Route("/set/get/all")
      */
     public function getAllSets()
     {
-
         $set = $this->get('mtg.set');
 
         $set->getAll();
 
-        return $this->render('MtgBundle:Default:index.html.twig');
+        return $this->render('MtgBundle:Card:index.html.twig');
     }
 }

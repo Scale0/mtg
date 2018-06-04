@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <table id="collectionTable" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Naam</th>
+            <th>Set</th>
+            <th>Rarity</th>
+            <th>Kleuren</th>
+            <th>x </th>
+        </tr>
+        </thead>
+        {% for collectionRow in collectionRows %}
+           {% include 'MtgBundle:Collection:cardrow.html.twig' with {'collectionRow': collectionRow} %}
+        {% endfor %}
+    </table>
+{% endblock %}

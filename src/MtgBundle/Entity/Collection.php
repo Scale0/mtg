@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Collection
  *
- * @ORM\Table(name="collection")
+ * @ORM\Table(name="Collection")
  * @ORM\Entity(repositoryClass="MtgBundle\Repository\CollectionRepository")
  */
 class Collection
