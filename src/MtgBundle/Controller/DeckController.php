@@ -32,15 +32,16 @@ class DeckController extends Controller
      */
     public function view($id)
     {
-        $deck = $this->get('mtg.deck')->getDeck($id, $this->getUser());
-        dump($deck->getName());die();
+        $deckCards = $this->get('mtg.deck')->getDeckCards($id);
+        $deck = $this->get('mtg.deck')->getDeck($id);
+        return $this->render('MtgBundle:Deck:view.html.twig', ['deck' => $deck, 'cards' => $deckCards]);
     }
 
     /**
      * @param $deckId
      * @param $setCode
      * @param $cardCollectionId
-     * @Route("/deck/addCard/{deckId}/{setCode}/{cardCollectionId}")
+     * @Route("/deck/addCard/{deckId}/{setCode}/{cardCollectionId}/")
      */
     public function addCardToDeck($deckId, $setCode, $cardCollectionId)
     {
@@ -48,6 +49,26 @@ class DeckController extends Controller
         $deck = $deckService->getDeck($deckId, $this->getUser());
         $card = $this->get('mtg.card')->get($setCode, $cardCollectionId);
         $deckService->addCardToDeck($deck, $card);
-        dump($deckService);die();
+
+        return $this->redirectToRoute('mtg_deck_view', ['id' => $deck->getId()]);
+    }
+
+    /**
+     * @Route("/deck/addCard")
+     */
+    public function addCard(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $deckService = $this->get('mtg.deck');
+            $cardService = $this->get('mtg.card');
+            $deck = $deckService->getDeck($request->request->get('deck'), $this->getUser());
+            $card = $cardService->get($request->request->get('set'), $request->request->get('card'));
+            $amount = $request->request->get('amount');
+            for ($i = 0; $i <= $amount; $i++) {
+                $deckService->addCardToDeck($deck, $card);
+            }
+            return $this->redirectToRoute('mtg_deck_view', ['id' => $deck->getId()]);
+        }
+        return $this->redirectToRoute('mtg_card_index');
     }
 }

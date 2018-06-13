@@ -38,14 +38,37 @@ class MtgDeckService extends MtgService
     }
 
     /**
-     * @param      $id
-     * @param User $user
+     * @param $user
+     *
+     * @return Deck
+     */
+    public function getDecks($user)
+    {
+        return $this->em->getRepository('MtgBundle:Deck')->findBy(['user' => $user]);
+    }
+
+    /**
+     * @param $id
      *
      * @return Deck|null|object
      */
-    public function getDeck($id, User $user)
+    public function getDeck($id)
     {
-        return $this->em->getRepository('MtgBundle:Deck')->findOneBy(['id' => $id, 'user' => $user]);
+        return $this->em->getRepository('MtgBundle:Deck')
+            ->findOneBy(['id' => $id]);
+    }
+
+    /**
+     * @param      $id
+     *
+     * @return DeckCards[]
+     */
+    public function getDeckCards($deckId)
+    {
+        $cards = $this->em->getRepository('MtgBundle:DeckCards')
+            ->getCardsOrderedByType($deckId);
+        #->findBy(['deck' => $deckId], ['card.type' => 'DESC']);
+        return $cards;
     }
 
     /**
@@ -56,15 +79,23 @@ class MtgDeckService extends MtgService
      */
     public function addCardToDeck(Deck $deck, Card $card)
     {
-        $deckCard = new DeckCards();
-        $deckCard
-            ->setCard($card)
-            ->setDeck($deck);
+        $existingDeckCard = $this->em->getRepository('MtgBundle:DeckCards')
+            ->findOneBy(['deck' => $deck, 'card' => $card]);
 
-        $this->em->persist($deckCard);
+        if ($existingDeckCard) {
+            $existingDeckCard->addOne();
+            $this->em->persist($existingDeckCard);
+            $this->em->flush();
+            return $existingDeckCard;
+        }
+
+        $DeckCard = new DeckCards();
+        $DeckCard->setDeck($deck)
+            ->setCard($card);
+        $this->em->persist($DeckCard);
         $this->em->flush();
 
-        return $deckCard;
+        return $DeckCard;
 
     }
 }
