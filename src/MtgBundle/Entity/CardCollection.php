@@ -31,7 +31,10 @@ class CardCollection
      */
     private $card;
 
-
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $amount = 1;
     #region setters
     /**
      * Get id
@@ -57,6 +60,21 @@ class CardCollection
     public function getCard()
     {
         return $this->card;
+    }
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function addOne()
+    {
+        $this->amount++;
+    }
+
+    public function removeOne()
+    {
+        $this->amount--;
     }
 
     #endregion

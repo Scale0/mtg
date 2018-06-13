@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="table" id="deckviewtable">
+            <div class="container"><h1>{{ deck.name }}</h1>
+            {% set currentType = '' %}
+    {% for card in cards %}
+    {% if currentType != card.card.type %}
+            </div><div class="col-md-6">
+            {% set currentType = card.card.type %}
+            <h3>{{ currentType }}</h3>
+            {% endif %}
+            <div class="row">
+                <div class="col-md-6">
+                    <a data-toggle="popover" data-img="{{ card.card.cardSet.code }}/{{ card.card.collectionId }}"  href="{{ path('mtg_card_getcard', {'set': card.card.cardset.code, 'collectionId': card.card.collectionId}) }}">
+                        {{ card.amount }} x {{ card.card.name }}</a>
+                </div>
+                <div class="col-md-6">{{ card.card.manaCost|symbol }}</div>
+            </div>
+    {% endfor %}
+        </div>
+    </div>
+{% endblock %}

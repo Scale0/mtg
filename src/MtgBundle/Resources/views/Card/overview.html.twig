@@ -21,6 +21,25 @@
                         <td colspan="2">
                             <a href="{{ path('mtg_collection_addcardtocollection', {'setCode': card.cardSet.code, 'collectionId': card.CollectionId}) }}">Deze heb ik!</a></td>
                     </tr>
+                    <tr>
+                        <td colspan="2">
+                            <form action="{{ path('mtg_deck_addcard') }}" method="POST">
+                                <input type="hidden" name="set" value="{{ card.cardSet.code }}">
+                                <input type="hidden" name="card" value="{{ card.collectionId }}">
+                                Voeg kaart to aan: <select class="form-inline" name="deck">
+                                    {% for deck in decks %}
+                                        <option value="{{ deck.id }}" onclick="{{ path('mtg_deck_addcardtodeck', {'deckId': deck.id,'setCode': card.cardSet.code, 'cardCollectionId': card.collectionId}) }}">{{ deck.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select class="form-inline" name="amount">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                                <input type="submit" class="form-inline" value="Voeg toe">
+                        </td>
+                    </tr>
                 {%  endif %}
                 <tr>
                     <td>Collectie ID:</td>

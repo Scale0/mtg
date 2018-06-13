@@ -128,8 +128,23 @@ class MtgCardService extends MtgService
         return $card;
     }
 
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
     public function searchCard($query)
     {
         return $this->getResultsFromUrl('https://api.scryfall.com/cards/search?q=' . $query);
+    }
+
+    public function updateCards()
+    {
+        $cards = $this->em->getRepository('MtgBundle:Card')->findAll();
+        foreach($cards as $card) {
+
+            $this->em->persist($card);
+        }
+        $this->em->flush();
     }
 }
