@@ -43,7 +43,7 @@ class CollectionController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $cardSet = $form->getData()['set'];
-            $cardString = $form->getData()['name'];
+            $cardString = $form->getData()['string'];
             $cardArray = str_split($cardString, 3);
 
             $this->get('mtg.collection')

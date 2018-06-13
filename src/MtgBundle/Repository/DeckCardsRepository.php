@@ -2,6 +2,8 @@
 
 namespace MtgBundle\Repository;
 
+use MtgBundle\Entity\Card;
+
 /**
  * DeckCardsRepository
  *
@@ -10,4 +12,24 @@ namespace MtgBundle\Repository;
  */
 class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $deck
+     *
+     * @return mixed
+     */
+    public function getCardsOrderedByType($deck)
+    {
+        $builder = $this->getEntityManager()->createQueryBuilder();
+        $query = $builder
+            ->select('DC')
+            ->from('MtgBundle:DeckCards','DC')
+            ->join(Card::class,'card','with','DC.card = card')
+            ->where('DC.deck = :deck')
+            ->orderBy('card.type')
+            ->setParameter('deck', $deck)
+            ->getQuery();
+
+        return $query->execute();
+
+    }
 }

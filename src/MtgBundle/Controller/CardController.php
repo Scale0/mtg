@@ -52,7 +52,6 @@ class CardController extends Controller
      * @param $collectionId
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @Route("/card/get/{set}/{collectionId}")
      */
     public function getCard($set, $collectionId)
@@ -61,12 +60,29 @@ class CardController extends Controller
             ->get($set, $collectionId)
         ;
 
-        $collectedCount = $this->get('mtg.collection')->getCountByUserAndCard($this->getUser(), $card);
+        $collectedCount = $this->get('mtg.collection')->getCollectionRow($this->getUser(), $card);
+
+        $decks = $this->get('mtg.deck')->getDecks($this->getUser());
 
         return $this->render('MtgBundle:Card:card.html.twig', [
             'card' => $card,
-            'collectedCount' => count($collectedCount),
+            'decks' => $decks,
+            'collectedCount' => $collectedCount->getAmount(),
             'legality' => $card->getLegality()
         ]);
+    }
+
+    /**
+     * @Route("/card/update/{set}/{collectionId}")
+     * @param $set
+     * @param $card
+     */
+    public function updateCards($set, $collectionId)
+    {
+        $getCard = $this->get('mtg.card')
+            ->updateCards();
+
+        echo "ahaha";
+        die();
     }
 }

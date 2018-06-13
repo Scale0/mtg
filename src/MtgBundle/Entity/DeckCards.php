@@ -22,7 +22,7 @@ class DeckCards
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MtgBundle\Entity\Deck")
+     * @ORM\ManyToOne(targetEntity="MtgBundle\Entity\Deck", inversedBy="DeckCards")
      */
     private $deck;
 
@@ -30,6 +30,11 @@ class DeckCards
      * @ORM\ManyToOne(targetEntity="MtgBundle\Entity\Card")
      */
     private $card;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $amount = 1;
 
     #region getters
     /**
@@ -57,6 +62,11 @@ class DeckCards
     {
         return $this->card;
     }
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
     #endregion
 
     #region setters
@@ -83,6 +93,19 @@ class DeckCards
     {
         $this->card = $card;
 
+        return $this;
+    }
+
+    /**
+     * @param int $limit
+     *
+     * @return $this
+     */
+    public function addOne($limit = 4)
+    {
+        if ($this->amount < $limit) {
+            $this->amount++;
+        }
         return $this;
     }
     #endregion

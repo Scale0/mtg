@@ -2,6 +2,7 @@
 
 namespace MtgBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +32,11 @@ class Deck
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="MtgBundle\Entity\DeckCards", mappedBy="deck")
+     */
+    private $DeckCards;
+
     #region getters
     /**
      * Get id
@@ -56,6 +62,15 @@ class Deck
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return ArrayCollection|DeckCards[]
+     */
+
+    public function getDeckCards()
+    {
+        return $this->DeckCards;
     }
 
     #endregion

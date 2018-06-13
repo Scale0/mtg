@@ -35,6 +35,16 @@ class MtgCollectionService extends MtgService
      */
     public function addCardToCollection(Card $card, User $user)
     {
+        $existingCard = $this->em->getRepository('MtgBundle:CardCollection')
+            ->findOneBy(['user' => $user, 'card' => $card]);
+
+        if ($existingCard) {
+            $existingCard->addOne();
+            $this->em->persist($existingCard);
+            $this->em->flush();
+            return $existingCard;
+        }
+
         $collectedCard = new CardCollection();
 
         $collectedCard->setCard($card);
@@ -48,14 +58,14 @@ class MtgCollectionService extends MtgService
     }
 
     /**
-     * @param User $user
+     * @param $user
      * @param Card $card
      *
-     * @return array|CardCollection[]
+     * @return CardCollection
      */
-    public function getCountByUserAndCard(User $user, Card $card)
+    public function getCollectionRow($user, Card $card)
     {
-        $cards = $this->em->getRepository('MtgBundle:CardCollection')->findBy(['user' => $user, 'card' => $card]);
+        $cards = $this->em->getRepository('MtgBundle:CardCollection')->findOneBy(['user' => $user, 'card' => $card]);
 
         return $cards;
     }
@@ -68,7 +78,8 @@ class MtgCollectionService extends MtgService
     public function removeCardFromCollection(CardCollection $collectionRow, User $user)
     {
         if ($collectionRow->getUser() === $user) {
-            $this->em->remove($collectionRow);
+            $collectionRow->removeOne();
+            $this->em->persist($collectionRow);
             $this->em->flush();
         }
     }
