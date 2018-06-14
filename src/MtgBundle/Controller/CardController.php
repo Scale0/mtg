@@ -64,10 +64,13 @@ class CardController extends Controller
 
         $decks = $this->get('mtg.deck')->getDecks($this->getUser());
 
+        $prints = $this->get('mtg.card')->getPrints($card);
+
         return $this->render('MtgBundle:Card:card.html.twig', [
             'card' => $card,
             'decks' => $decks,
-            'collectedCount' => $collectedCount->getAmount(),
+            'collectedCount' => $collectedCount ? $collectedCount->getAmount() : null,
+            'prints' => $prints,
             'legality' => $card->getLegality()
         ]);
     }

@@ -11,6 +11,11 @@
             <li>
                 <a href="#2" data-toggle="tab">legality</a>
             </li>
+            {% if prints %}
+            <li>
+                <a href="#3" data-toggle="tab">prints</a>
+            </li>
+            {% endif %}
         </ul>
         <div class="tab-content ">
             <div class="tab-pane active" id="1">
@@ -19,6 +24,11 @@
             <div class="tab-pane" id="2">
                 {% include 'MtgBundle:Card:legality.html.twig' with {'card': card } %}
             </div>
+            {% if prints %}
+                <div class="tab-pane" id="3">
+                    {% include 'MtgBundle:Card:prints.html.twig' with {'card': card } %}
+                </div>
+            {% endif %}
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
