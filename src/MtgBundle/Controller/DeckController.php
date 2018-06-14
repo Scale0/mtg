@@ -2,6 +2,7 @@
 
 namespace MtgBundle\Controller;
 
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
 use MtgBundle\Form\Deck\createDeckType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,9 +33,23 @@ class DeckController extends Controller
      */
     public function view($id)
     {
-        $deckCards = $this->get('mtg.deck')->getDeckCards($id);
-        $deck = $this->get('mtg.deck')->getDeck($id);
-        return $this->render('MtgBundle:Deck:view.html.twig', ['deck' => $deck, 'cards' => $deckCards]);
+        $deckService = $this->get('mtg.deck');
+        $deckCards = $deckService->getDeckCards($id);
+        $deck = $deckService->getDeck($id);
+        $manacosts = $deckService->getConvertedManaByDeck($id);
+        $dataArray[] = ['mana', 'cards'];
+        foreach ($manacosts as $key => $value) {
+            $dataArray[] = [$key, $value];
+        }
+        $chart = new ColumnChart();
+        $chart->getData()->setArrayToDataTable($dataArray);
+        $chart->getOptions()
+            ->setTitle('Manacosts')
+            ->setColors(['#b15e0a'])
+            ->setHeight(500)
+            ->setWidth(500);
+
+        return $this->render('MtgBundle:Deck:view.html.twig', ['deck' => $deck, 'cards' => $deckCards, 'manaChart' => $chart]);
     }
 
     /**
