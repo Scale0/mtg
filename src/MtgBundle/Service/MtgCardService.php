@@ -138,6 +138,25 @@ class MtgCardService extends MtgService
         return $this->getResultsFromUrl('https://api.scryfall.com/cards/search?q=' . $query);
     }
 
+
+    public function getPrints(Card $card)
+    {
+        $url = 'https://api.scryfall.com/cards/search?order=set&q=!%22' . str_replace(" ", "%20", $card->getName()) . '%22&unique=prints';
+        $prints = $this->getResultsFromUrl($url)->data;
+        $setService = $cardSet = $this->em->getRepository("MtgBundle:cardSet");
+        $return = [];
+        foreach($prints as $print){
+            $set = $setService->findOneByCode($print->set);
+            $return[] = [
+                'setname' => $set->getName(),
+                'setcode' => $set->getCode(),
+                'icon' => $set->getIcon(),
+                'collectionId' => $print->collector_number
+            ];
+        }
+        return $return;
+    }
+
     public function updateCards()
     {
         $cards = $this->em->getRepository('MtgBundle:Card')->findAll();
