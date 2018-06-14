@@ -78,3 +78,7 @@ fos_user:
     from_email:
         address: 'sjoerddewaard@gmail.com'
         sender_name: 'Sjoerd'
+
+cmen_google_charts:
+    version: "current"
+    language: "nl"

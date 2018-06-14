@@ -67,7 +67,6 @@ class MtgDeckService extends MtgService
     {
         $cards = $this->em->getRepository('MtgBundle:DeckCards')
             ->getCardsOrderedByType($deckId);
-        #->findBy(['deck' => $deckId], ['card.type' => 'DESC']);
         return $cards;
     }
 
@@ -97,5 +96,23 @@ class MtgDeckService extends MtgService
 
         return $DeckCard;
 
+    }
+
+    public function getConvertedManaByDeck($deck)
+    {
+        $manaCosts = [];
+        $cards = $this->em->getRepository('MtgBundle:DeckCards')
+            ->getCardsWithMoreThenZeroCmC($deck);
+            ;
+        foreach($cards as $card) {
+            $key = $card->getCard()->getConvertedManaCosts();
+            $manaCosts[$key] =
+                (!empty($manaCosts[$key]) ?
+                    $manaCosts[$key] + $card->getAmount() :
+                    $card->getAmount());
+        }
+
+        ksort($manaCosts);
+        return $manaCosts;
     }
 }

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new MtgBundle\MtgBundle(),
+            new CMEN\GoogleChartsBundle\CMENGoogleChartsBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new FOS\UserBundle\FOSUserBundle(),
         ];
