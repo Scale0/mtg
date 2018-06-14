@@ -66,6 +66,11 @@ class Card
     private $mana_cost;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $convertedManaCosts;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CardSet")
      */
     private $CardSet;
@@ -188,7 +193,7 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRarity()
     {
@@ -196,7 +201,7 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getPower()
     {
@@ -204,7 +209,7 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getToughness()
     {
@@ -219,9 +224,20 @@ class Card
         return $this->colors;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLegality()
     {
         return $this->legality;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getConvertedManaCosts()
+    {
+        return $this->convertedManaCosts;
     }
 
     #endregion
@@ -380,6 +396,18 @@ class Card
     public function setLegality($legality)
     {
         $this->legality = $legality;
+
+        return $this;
+    }
+
+    /**
+     * @param integer $convertedManaCosts
+     *
+     * @return $this
+     */
+    public function setConvertedManaCosts($convertedManaCosts)
+    {
+        $this->convertedManaCosts = $convertedManaCosts;
 
         return $this;
     }

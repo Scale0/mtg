@@ -72,6 +72,7 @@ class MtgCardService extends MtgService
             ->setOracleText($oracle_text)
             ->setFlavorText($flavor_text)
             ->setManaCost($mana_cost)
+            ->setConvertedManaCosts($newcard->cmc)
             ->setRarity($newcard->rarity)
             ->setPower(!empty($power) ? $power : null)
             ->setToughness(!empty($newcard->toughness) ? $newcard->toughness : null)
@@ -138,7 +139,11 @@ class MtgCardService extends MtgService
         return $this->getResultsFromUrl('https://api.scryfall.com/cards/search?q=' . $query);
     }
 
-
+    /**
+     * @param Card $card
+     *
+     * @return array
+     */
     public function getPrints(Card $card)
     {
         $url = 'https://api.scryfall.com/cards/search?order=set&q=!%22' . str_replace(" ", "%20", $card->getName()) . '%22&unique=prints';
@@ -159,11 +164,9 @@ class MtgCardService extends MtgService
 
     public function updateCards()
     {
-        $cards = $this->em->getRepository('MtgBundle:Card')->findAll();
-        foreach($cards as $card) {
-
-            $this->em->persist($card);
-        }
-        $this->em->flush();
+        #foreach($cards as $card) {
+      #      $this->em->persist($card);
+        #}
+        #$this->em->flush();
     }
 }

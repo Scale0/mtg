@@ -15,7 +15,7 @@ class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @param $deck
      *
-     * @return mixed
+     * @return DeckCards[]
      */
     public function getCardsOrderedByType($deck)
     {
@@ -25,11 +25,32 @@ class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
             ->from('MtgBundle:DeckCards','DC')
             ->join(Card::class,'card','with','DC.card = card')
             ->where('DC.deck = :deck')
-            ->orderBy('card.type')
+            ->orderBy('card.type', 'DESC')
             ->setParameter('deck', $deck)
             ->getQuery();
 
         return $query->execute();
 
+    }
+
+    /**
+     * @param $deck
+     *
+     * @return mixed
+     */
+    public function getCardsWithMoreThenZeroCmC($deck)
+    {
+        $builder = $this->getEntityManager()->createQueryBuilder();
+        $query = $builder
+            ->select('DC')
+            ->from('MtgBundle:DeckCards', 'DC')
+            ->join(Card::class,'card','with', 'DC.card = card')
+            ->Where('card.type in (:types)')
+            ->andWhere('DC.deck = :deck')
+            ->setParameter(':deck', $deck)
+            ->setParameter('types', [1,2,32,64,256,512])
+            ->getQuery();
+
+        return $query->execute();
     }
 }
