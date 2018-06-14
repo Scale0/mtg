@@ -46,7 +46,7 @@ class DeckController extends Controller
     public function addCardToDeck($deckId, $setCode, $cardCollectionId)
     {
         $deckService = $this->get('mtg.deck');
-        $deck = $deckService->getDeck($deckId, $this->getUser());
+        $deck = $deckService->getDeck($deckId);
         $card = $this->get('mtg.card')->get($setCode, $cardCollectionId);
         $deckService->addCardToDeck($deck, $card);
 
@@ -61,7 +61,7 @@ class DeckController extends Controller
         if ($request->isMethod('POST')) {
             $deckService = $this->get('mtg.deck');
             $cardService = $this->get('mtg.card');
-            $deck = $deckService->getDeck($request->request->get('deck'), $this->getUser());
+            $deck = $deckService->getDeck($request->request->get('deck'));
             $card = $cardService->get($request->request->get('set'), $request->request->get('card'));
             $amount = $request->request->get('amount');
             for ($i = 0; $i <= $amount; $i++) {
