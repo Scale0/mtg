@@ -79,7 +79,7 @@
                 {% endif %}
                 {% if card.power %}
                 <tr>
-                    <td>power:</td>
+                    <td>{% if card.type == 'Planeswalker' %}Loyalty{% else %}power{% endif %}:</td>
                     <td>{{ card.power }}</td>
                 </tr>
                 {% endif %}

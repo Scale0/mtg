@@ -1,0 +1,20 @@
+<div class="col-md-4">
+    <div class="list-group">
+        {% set i = 0 %}
+        {% for print in prints %}
+        {% if i == (prints|length / 2)|round %}
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="list-group">
+        {% endif %}
+        {% set i = i + 1 %}
+        <span href="#" class="list-group-item list-group-item-action">
+            <a href="{{ path('mtg_card_getcard', {'set': print.setcode, 'collectionId': print.collectionId}) }}">
+                <img class="symbol" src="{{ print.icon }}"> {{ print.setname }}
+            </a>
+        </span>
+        {% endfor %}
+    </div>
+</div>
+<div class="col-md-4">&nbsp;</div>
