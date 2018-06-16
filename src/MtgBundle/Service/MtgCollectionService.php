@@ -103,7 +103,7 @@ class MtgCollectionService extends MtgService
     }
 
     /**
-     * @param $user
+     * @param User $user
      *
      * @return array|CardCollection[]
      */

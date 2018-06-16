@@ -49,6 +49,7 @@ class MtgDeckService extends MtgService
 
     /**
      * @param $id
+     * @param User $user
      *
      * @return Deck|null|object
      */

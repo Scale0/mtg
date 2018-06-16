@@ -3,6 +3,7 @@
 namespace MtgBundle\Controller;
 
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\ColumnChart;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use MtgBundle\Form\Deck\createDeckType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,7 +30,7 @@ class DeckController extends Controller
 
     /**
      * @param $id
-     * @Route("/deck/view/{id}")
+     * @Route("/deck/{id}")
      */
     public function view($id)
     {
@@ -37,19 +38,24 @@ class DeckController extends Controller
         $deckCards = $deckService->getDeckCards($id);
         $deck = $deckService->getDeck($id);
         $manacosts = $deckService->getConvertedManaByDeck($id);
-        $dataArray[] = ['mana', 'cards'];
+        $manaData[] = ['mana', 'cards'];
         foreach ($manacosts as $key => $value) {
-            $dataArray[] = [$key, $value];
+            $manaData[] = [['f' => $key], ['v' => $value]];
         }
-        $chart = new ColumnChart();
-        $chart->getData()->setArrayToDataTable($dataArray);
-        $chart->getOptions()
+        $manaChart = new ColumnChart();
+        $manaChart->getData()->setArrayToDataTable($manaData);
+        $manaChart->getOptions()
             ->setTitle('Manacosts')
-            ->setColors(['#b15e0a'])
-            ->setHeight(500)
-            ->setWidth(500);
+            ->setHeight(200)
+            ->setWidth(300)
+            ->setColors(['#b15e0a']) ;
+        foreach($deckCards as $deckCard) {
+            dump($deckCard->getCard()->getName());
+            dump($deckCard->getCard()->getColors());
+        }
+        $colorChart = new PieChart();
 
-        return $this->render('MtgBundle:Deck:view.html.twig', ['deck' => $deck, 'cards' => $deckCards, 'manaChart' => $chart]);
+        return $this->render('MtgBundle:Deck:view.html.twig', ['deck' => $deck, 'cards' => $deckCards, 'manaChart' => $manaChart]);
     }
 
     /**
@@ -61,10 +67,13 @@ class DeckController extends Controller
     public function addCardToDeck($deckId, $setCode, $cardCollectionId)
     {
         $deckService = $this->get('mtg.deck');
-        $deck = $deckService->getDeck($deckId, $this->getUser());
+        $deck = $deckService->getDeck($deckId);
+        if ($deck->getUser() !== $this->getUser()) {
+            die('dit is niet jou deck vrind');
+        }
         $card = $this->get('mtg.card')->get($setCode, $cardCollectionId);
         $deckService->addCardToDeck($deck, $card);
-
+        
         return $this->redirectToRoute('mtg_deck_view', ['id' => $deck->getId()]);
     }
 

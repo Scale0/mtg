@@ -24,6 +24,11 @@ services:
         public: true
         arguments: [ "@doctrine.orm.entity_manager"]
 
+    mtg.user:
+        class: 'MtgBundle\Service\MtgUserService'
+        public: true
+        arguments: ["@doctrine.orm.entity_manager"]
+
     mtg.symbol_extension:
         class: MtgBundle\Twig\MtgSymbolExtension
         tags:

@@ -2,7 +2,9 @@
 
 namespace MtgBundle\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MtgBundle\Entity\Card;
+use MtgBundle\Entity\DeckCards;
 
 /**
  * DeckCardsRepository
@@ -36,7 +38,7 @@ class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @param $deck
      *
-     * @return mixed
+     * @return DeckCards[]
      */
     public function getCardsWithMoreThenZeroCmC($deck)
     {

@@ -13,6 +13,10 @@ class CardController extends Controller
      */
     public function indexAction()
     {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+#            return $this->redirectToRoute('mtg_user_index', [''])
+        }
+        dump($this->getUser());die();
         return $this->render('MtgBundle:Card:index.html.twig');
     }
 
@@ -64,7 +68,10 @@ class CardController extends Controller
 
         $decks = $this->get('mtg.deck')->getDecks($this->getUser());
 
-        $prints = $this->get('mtg.card')->getPrints($card);
+        $prints = [];
+        if (!in_array($card->getType(), ['Basic Land', 'Land'])) {
+            $prints = $this->get('mtg.card')->getPrints($card);
+        }
 
         return $this->render('MtgBundle:Card:card.html.twig', [
             'card' => $card,
