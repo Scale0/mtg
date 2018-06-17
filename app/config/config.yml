@@ -79,13 +79,6 @@ fos_user:
         address: 'sjoerddewaard@gmail.com'
         sender_name: 'Sjoerd'
 
-fos_comment:
-    db_driver: orm
-    class:
-        model:
-            comment: MtgBundle\Entity\Comment
-            thread: MtgBundle\Entity\Thread
-
 cmen_google_charts:
     version: "current"
     language: "nl"
