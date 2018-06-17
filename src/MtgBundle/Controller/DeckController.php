@@ -37,25 +37,12 @@ class DeckController extends Controller
         $deckService = $this->get('mtg.deck');
         $deckCards = $deckService->getDeckCards($id);
         $deck = $deckService->getDeck($id);
-        $manacosts = $deckService->getConvertedManaByDeck($id);
-        $manaData[] = ['mana', 'cards'];
-        foreach ($manacosts as $key => $value) {
-            $manaData[] = [['f' => $key], ['v' => $value]];
-        }
-        $manaChart = new ColumnChart();
-        $manaChart->getData()->setArrayToDataTable($manaData);
-        $manaChart->getOptions()
-            ->setTitle('Manacosts')
-            ->setHeight(200)
-            ->setWidth(300)
-            ->setColors(['#b15e0a']) ;
-        foreach($deckCards as $deckCard) {
-            dump($deckCard->getCard()->getName());
-            dump($deckCard->getCard()->getColors());
-        }
-        $colorChart = new PieChart();
+        $charts = $deckService->buildCharts($deck);
 
-        return $this->render('MtgBundle:Deck:view.html.twig', ['deck' => $deck, 'cards' => $deckCards, 'manaChart' => $manaChart]);
+        return $this->render('MtgBundle:Deck:view.html.twig', [
+            'deck' => $deck,
+            'cards' => $deckCards,
+            'charts' => $charts]);
     }
 
     /**

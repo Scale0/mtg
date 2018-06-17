@@ -39,10 +39,12 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div id="div_chart"></div>
+            {% for chart in charts.div %}
+                <div id="{{ chart }}"></div>
+            {% endfor %}
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
             <script type="text/javascript">
-                {{ gc_draw(manaChart, 'div_chart') }}
+                {{ gc_draw(charts.chart, charts.div) }}
             </script>
         </div>
     </div>

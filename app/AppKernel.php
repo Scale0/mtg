@@ -21,6 +21,9 @@ class AppKernel extends Kernel
             new MtgBundle\MtgBundle(),
             new CMEN\GoogleChartsBundle\CMENGoogleChartsBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\UserBundle\FOSUserBundle(),
         ];
 

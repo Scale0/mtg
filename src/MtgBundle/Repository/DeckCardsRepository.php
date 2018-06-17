@@ -4,6 +4,7 @@ namespace MtgBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MtgBundle\Entity\Card;
+use MtgBundle\Entity\Deck;
 use MtgBundle\Entity\DeckCards;
 
 /**
@@ -36,11 +37,11 @@ class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * @param $deck
+     * @param Deck $deck
      *
      * @return DeckCards[]
      */
-    public function getCardsWithMoreThenZeroCmC($deck)
+    public function getCardsWithMoreThenZeroCmC(Deck $deck)
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
         $query = $builder
