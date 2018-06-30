@@ -37,12 +37,19 @@ class DeckController extends Controller
         $deckService = $this->get('mtg.deck');
         $deckCards = $deckService->getDeckCards($id);
         $deck = $deckService->getDeck($id);
+        if (!$deck) {
+            die('deck bestaat niet');
+        }
         $charts = $deckService->buildCharts($deck);
+        
+        $exampleHand = $deckService->exampleHand($deck);
 
         return $this->render('MtgBundle:Deck:view.html.twig', [
             'deck' => $deck,
             'cards' => $deckCards,
-            'charts' => $charts]);
+            'charts' => $charts,
+            'exampleHand' => $exampleHand
+        ]);
     }
 
     /**

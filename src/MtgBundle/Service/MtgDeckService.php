@@ -237,4 +237,24 @@ class MtgDeckService extends MtgService
 
         return $charts;
     }
+
+    /**
+     * @param Deck $deck
+     */
+    public function exampleHand(Deck $deck)
+    {
+        $cards = $deck->getDeckCards();
+        $deckCards = [];
+        foreach($cards as $card) {
+            for ($i = 0; $i < $card->getAmount(); $i++) {
+                $deckCards[] = $card->getCard();
+            }
+        }
+        $randomKeys = array_rand($deckCards, 7);
+        $returnHand = [];
+        foreach($randomKeys as $key => $value) {
+            $returnHand[] = $deckCards[$value];
+        }
+        return $returnHand;
+    }
 }

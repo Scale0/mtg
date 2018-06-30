@@ -23,4 +23,25 @@ class SetController extends Controller
 
         return $this->render('MtgBundle:Card:index.html.twig');
     }
+
+    /**
+     * @param $code
+     * @Route("/set/get/{code}")
+     */
+    public function getCompleteSet($code)
+    {
+        $set = $this->get('mtg.set');
+
+        dump($set->getAllCardsBySet($code)); die();
+    }
+
+    /**
+     * @route("/set/update/all")
+     */
+    public function updateSet()
+    {
+        $set = $this->get('mtg.set');
+
+        $set->update();
+    }
 }

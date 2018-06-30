@@ -25,65 +25,10 @@ class MtgCardService extends MtgService
         usleep(100000);
         $newcard = $this->getResultsFromUrl("https://api.scryfall.com/cards/".$cardSet."/".$collectionId);
 
-        if ($newcard->object == 'error') {
-            return false;
-        }
+        $card = $this->saveCardObject($newcard);
 
-        if (!empty($newcard->card_faces) && is_array($newcard->card_faces)) {
-            $cardImage = $newcard->card_faces[0]->image_uris->normal;
-            $type_line = $newcard->card_faces[0]->type_line;
-            $oracle_text = !empty($newcard->card_faces[0]->oracle_text) ? $newcard->card_faces[0]->oracle_text : null;
-            $flavor_text = !empty($newcard->card_faces[0]->flavor_text) ? $newcard->card_faces[0]->flavor_text : null;
-            $mana_cost = str_replace('/', '', $newcard->card_faces[0]->mana_cost);
-            $color = $newcard->card_faces[0]->colors;
-
-            $power =
-                (!empty($newcard->card_faces[0]->loyalty) ?
-                    $newcard->card_faces[0]->loyalty :
-                    (!empty($newcard->card_face[0]->power) ?
-                        $newcard->card_face[0]->power:
-                        null));
-        } else {
-            $cardImage = $newcard->image_uris->normal;
-            $type_line = $newcard->type_line;
-            $oracle_text = !empty($newcard->oracle_text) ? $newcard->oracle_text : null;
-            $flavor_text = !empty($newcard->flavor_text) ? $newcard->flavor_text : null;
-            $mana_cost = str_replace('/', '', $newcard->mana_cost);
-            $color = $newcard->colors;
-
-            $power =
-                (!empty($newcard->loyalty) ?
-                    $newcard->loyalty :
-                    (!empty($newcard->power) ?
-                        $newcard->power :
-                        null));
-        }
-        $cardImage = strstr($cardImage, "?", true);
-        $legality = $newcard->legalities;
-
-        $cardSet = $this->em->getRepository("MtgBundle:cardSet")->findOneByCode($newcard->set);
-        $card = new Card();
-        $card
-            ->setCollectionId($newcard->collector_number)
-            ->setImgUrl($cardImage)
-            ->setName($newcard->name)
-            ->setCardSet($cardSet)
-            ->setTypeLine($type_line)
-            ->setOracleText($oracle_text)
-            ->setFlavorText($flavor_text)
-            ->setManaCost($mana_cost)
-            ->setConvertedManaCosts($newcard->cmc)
-            ->setRarity($newcard->rarity)
-            ->setPower(!empty($power) ? $power : null)
-            ->setToughness(!empty($newcard->toughness) ? $newcard->toughness : null)
-            ->setColors($color)
-            ->setLegality($legality)
-        ;
-        $card->setImgUrl($this->saveImage($card));
         $this->em->persist($card);
         $this->em->flush();
-
-
 
         return $card;
     }
@@ -106,6 +51,67 @@ class MtgCardService extends MtgService
         }
 
         return 'images/cards/'.$card->getCardSet()->getCode().'/'.$card->getCollectionId().'.jpg';
+    }
+
+    private function saveCardObject($apiCard)
+    {
+        if ($apiCard->object == 'error') {
+            return false;
+        }
+
+        if (!empty($apiCard->card_faces) && is_array($apiCard->card_faces)) {
+            $cardImage = $apiCard->card_faces[0]->image_uris->normal;
+            $type_line = $apiCard->card_faces[0]->type_line;
+            $oracle_text = !empty($apiCard->card_faces[0]->oracle_text) ? $apiCard->card_faces[0]->oracle_text : null;
+            $flavor_text = !empty($apiCard->card_faces[0]->flavor_text) ? $apiCard->card_faces[0]->flavor_text : null;
+            $mana_cost = str_replace('/', '', $apiCard->card_faces[0]->mana_cost);
+            $color = $apiCard->card_faces[0]->colors;
+
+            $power =
+                (!empty($apiCard->card_faces[0]->loyalty) ?
+                    $apiCard->card_faces[0]->loyalty :
+                    (!empty($apiCard->card_face[0]->power) ?
+                        $apiCard->card_face[0]->power:
+                        null));
+        } else {
+            $cardImage = $apiCard->image_uris->normal;
+            $type_line = $apiCard->type_line;
+            $oracle_text = !empty($apiCard->oracle_text) ? $apiCard->oracle_text : null;
+            $flavor_text = !empty($apiCard->flavor_text) ? $apiCard->flavor_text : null;
+            $mana_cost = str_replace('/', '', $apiCard->mana_cost);
+            $color = $apiCard->colors;
+
+            $power =
+                (!empty($apiCard->loyalty) ?
+                    $apiCard->loyalty :
+                    (!empty($apiCard->power) ?
+                        $apiCard->power :
+                        null));
+        }
+        $cardImage = strstr($cardImage, "?", true);
+        $legality = $apiCard->legalities;
+
+        $cardSet = $this->em->getRepository("MtgBundle:cardSet")->findOneByCode($apiCard->set);
+        $card = new Card();
+        $card
+            ->setCollectionId($apiCard->collector_number)
+            ->setImgUrl($cardImage)
+            ->setName($apiCard->name)
+            ->setCardSet($cardSet)
+            ->setTypeLine($type_line)
+            ->setOracleText($oracle_text)
+            ->setFlavorText($flavor_text)
+            ->setManaCost($mana_cost)
+            ->setConvertedManaCosts($apiCard->cmc)
+            ->setRarity($apiCard->rarity)
+            ->setPower(!empty($power) ? $power : null)
+            ->setToughness(!empty($apiCard->toughness) ? $apiCard->toughness : null)
+            ->setColors($color)
+            ->setLegality($legality)
+        ;
+        $card->setImgUrl($this->saveImage($card));
+
+        return $card;
     }
 
     /**

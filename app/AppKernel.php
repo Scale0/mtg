@@ -16,10 +16,13 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
-            new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
             new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
             new MtgBundle\MtgBundle(),
             new CMEN\GoogleChartsBundle\CMENGoogleChartsBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\CommentBundle\FOSCommentBundle(),
+            new FOS\MessageBundle\FOSMessageBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
             new FOS\UserBundle\FOSUserBundle(),
         ];
 

@@ -8,6 +8,7 @@
             <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
             <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/font-awesome.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/comments.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -20,7 +21,14 @@
         <header class="header">
             <ul class="navi">
                 <li class="search"><a href="#" class="js-header-search-toggle"><i class="fa fa-search"></i></a></li>
-                <li><a href="http://127.0.0.1:8000/login">Login</a></li>
+                <li>
+                    {% if app.user is not null %}
+                        welkom {{ app.user }}
+                    <a href="http://127.0.0.1:8000/logout">Logout</a>
+                    {% else %}
+                    <a href="http://127.0.0.1:8000/login">Login</a>
+                    {% endif %}
+                </li>
             </ul>
         </header>
 
@@ -31,7 +39,8 @@
         {% block javascripts %}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-            <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+            {#<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>#}
+            <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
             <script src="{{ asset('js/main.js') }}"></script>
