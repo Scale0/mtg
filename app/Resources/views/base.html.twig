@@ -22,11 +22,11 @@
             <ul class="navi">
                 <li class="search"><a href="#" class="js-header-search-toggle"><i class="fa fa-search"></i></a></li>
                 <li>
-                    {% if app.user is not null %}
-                        welkom {{ app.user }}
-                    <a href="http://127.0.0.1:8000/logout">Logout</a>
+                    {% if app.user is not null and fos_message_nb_unread() > 0 %}
+                        <a href="{{ path('mtg_user_profile', {'userName': app.user.username }) }}">je hebt {{ fos_message_nb_unread() }} ongelezen berichten</a>
+                        <a href="http://127.0.0.1:8000/logout">Logout</a>
                     {% else %}
-                    <a href="http://127.0.0.1:8000/login">Login</a>
+                        <a href="http://127.0.0.1:8000/login">Login</a>
                     {% endif %}
                 </li>
             </ul>
@@ -39,7 +39,6 @@
         {% block javascripts %}
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-            {#<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>#}
             <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>

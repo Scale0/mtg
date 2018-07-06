@@ -3,12 +3,22 @@
 namespace MtgBundle\Controller;
 
 use MtgBundle\Form\CardCollection\massCardCollectionType;
+use MtgBundle\Service\MtgCardService;
+use MtgBundle\Service\MtgCollectionService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class CollectionController extends Controller
 {
+
+    private $collectionService;
+    private $cardService;
+    public function __construct(MtgCollectionService $collectionService, MtgCardService $cardService)
+    {
+        $this->collectionService = $collectionService;
+        $this->cardService = $cardService;
+    }
     /**
      * @param $setCode
      * @param $collectionId
@@ -18,9 +28,7 @@ class CollectionController extends Controller
      */
     public function addCardToCollection($setCode, $collectionId)
     {
-        $collection = $this->get('mtg.collection');
-
-        $card = $this->get('mtg.card')
+        $card = $this->cardService
             ->get($setCode, $collectionId)
         ;
         $user = $this->container->get('security.token_storage')
@@ -28,7 +36,7 @@ class CollectionController extends Controller
             ->getUser()
         ;
 
-        $collection->addCardToCollection($card, $user);
+        $this->collectionService->addCardToCollection($card, $user);
 
         return $this->redirectToRoute('mtg_collection_getcollection');
     }
@@ -46,7 +54,7 @@ class CollectionController extends Controller
             $cardString = $form->getData()['string'];
             $cardArray = str_split($cardString, 3);
 
-            $this->get('mtg.collection')
+            $this->collectionService
                 ->addArrayToCollection($cardSet, $cardArray, $this->getUser());
             return $this->redirectToRoute('mtg_collection_getcollection');
         }
@@ -60,9 +68,9 @@ class CollectionController extends Controller
      */
     public function removeFromCollection($collectionId)
     {
-        $collectionRow = $this->get('mtg.collection')->get($collectionId);
+        $collectionRow = $this->collectionService->get($collectionId);
         $user = $this->getUser();
-        $this->get('mtg.collection')->removeCardFromCollection($collectionRow, $user);
+        $this->collectionService->removeCardFromCollection($collectionRow, $user);
 
         return $this->redirectToRoute('mtg_collection_getcollection');
     }
@@ -73,7 +81,7 @@ class CollectionController extends Controller
      */
     public function getCollection()
     {
-        $collectionRows = $this->get('mtg.collection')->getRows($this->getUser());
+        $collectionRows = $this->collectionService->getRows($this->getUser());
 
         return $this->render('MtgBundle:Collection:collection.html.twig', ['collectionRows' => $collectionRows]);
     }

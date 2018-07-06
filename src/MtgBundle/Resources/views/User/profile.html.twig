@@ -10,6 +10,20 @@
             <li>
                 <a href="#2" data-toggle="tab">Decks</a>
             </li>
+            <li>
+                <a href="#3" data-toggle="tab">
+                    {% if app.user is not null %}
+                        {% if app.user == profileUser %}
+                            inbox
+                            {% if fos_message_nb_unread() > 0 %}<b>{% endif %}
+                            ({{ fos_message_nb_unread() }})
+                            {% if fos_message_nb_unread() > 0 %}</b>{% endif %}
+                        {% else %}
+                            Message
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </li>
         </ul>
         <div class="tab-content ">
             <div class="tab-pane active" id="1">
@@ -33,7 +47,18 @@
                 </table>
             </div>
             <div class="tab-pane" id="2">
-            {{ dump(decks) }}
+                {% for deck in decks %}
+                    <a href="{{ path('mtg_deck_view', {'id': deck.id }) }}">{{ deck.name }}</a> <br />
+                {% endfor %}
+            </div>
+            <div class="tab-pane" id="3">
+                {% if app.user is not null %}
+                    {% if app.user == profileUser %}
+                        {% include 'MtgBundle:User:inbox.html.twig' %}
+                    {% else %}
+                        Message
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>

@@ -42,7 +42,7 @@ class MtgDeckService extends MtgService
     /**
      * @param $user
      *
-     * @return Deck
+     * @return Deck[]
      */
     public function getDecks($user)
     {
