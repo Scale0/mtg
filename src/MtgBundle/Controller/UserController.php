@@ -1,26 +1,52 @@
 <?php
 namespace MtgBundle\Controller;
 
+use FOS\MessageBundle\Composer\Composer;
+use FOS\MessageBundle\Provider\Provider;
+use FOS\MessageBundle\Sender\Sender;
+use MtgBundle\Service\MtgCollectionService;
+use MtgBundle\Service\MtgDeckService;
+use MtgBundle\Service\MtgUserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class UserController extends Controller
 {
+    private $userService;
+    private $deckService;
+    private $collectionService;
+    private $messageProvider;
+    private $messageComposer;
+    private $messageSender;
+    public function __construct(
+        MtgUserService $userService,
+        MtgDeckService $deckService,
+        MtgCollectionService $collectionService,
+        Provider $messageProvider,
+        Composer $messageComposer,
+        Sender $messageSender
+    )
+    {
+        $this->userService = $userService;
+        $this->deckService = $deckService;
+        $this->collectionService = $collectionService;
+        $this->messageProvider = $messageProvider;
+        $this->messageComposer = $messageComposer;
+        $this->messageSender = $messageComposer;
+    }
     /**
      * @param $userName
      * @Route("/profile/{userName}")
      */
     public function profile($userName)
     {
-        $user = $this->get('mtg.user')->getUserByUserName($userName);
-        $decks = $this->get('mtg.deck')->getDecks($user);
-        $collection = $this->get('mtg.collection')->getByUser($user);
+        $user = $this->userService->getUserByUserName($userName);
+        $decks = $this->deckService->getDecks($user);
+        $collection = $this->collectionService->getByUser($user);
 
         $threads = '';
         if ($user == $this->getUser()) {
-            $provider = $this->get('fos_message.provider');
-
-            $threads = $provider->getInboxThreads();
+            $threads = $this->messageProvider->getInboxThreads();
         }
         if ($this->getUser()) {
             #die('ingelogd, maar niet op eigen profiel');
@@ -41,19 +67,16 @@ class UserController extends Controller
     public function loggedInProfile()
     {
         $sjoerd2 = $this->getDoctrine()->getRepository('MtgBundle:User')->findOneBy(['username' => 'sjoerd2']);
-        $messageComposer = $this->get('fos_message.composer');
-        $message = $messageComposer->newThread()
+
+        $message = $this->messageComposer->newThread()
             ->setSubject('test' . time())
             ->addRecipient($this->getUser())
             ->setSender($sjoerd2)
             ->setBody('This is a test message')
             ->getMessage();
 
-        $messageSender = $this->get('fos_message.sender');
-
-        $messageSender->send($message);
-        $provider = $this->get('fos_message.provider');
-        $inbox = $provider->getNbUnreadMessages();
+        $this->messageSender->send($message);
+        $inbox = $this->messageProvider->getNbUnreadMessages();
 
         dump($inbox);die();
     }
