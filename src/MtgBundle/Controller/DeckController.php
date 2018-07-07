@@ -14,9 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DeckController extends Controller
 {
-    /**
-     * @var MtgDeckService
-     */
     private $deckService;
     private $cardService;
     public function __construct(MtgDeckService $deckService, MtgCardService $cardService)
