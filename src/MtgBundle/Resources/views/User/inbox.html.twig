@@ -1,0 +1,23 @@
+<table id="collectionTable" class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Onderwerp</th>
+        <th>Van</th>
+        <th>startdatum</th>
+    </tr>
+    </thead>
+    {% if threads %}
+        {% for thread in threads %}
+            <tr>
+                <td>
+                    {% if thread.readByParticipant(app.user) != 1 %}<b>{% endif %}
+                        <a href="#">{{ thread.subject }}</b>
+                    {% if thread.readByParticipant(app.user) != 1 %}</b>{% endif %}
+                </td>
+                <td>{{ thread.createdBy }}</td>
+                <td>{{ thread.createdAt|date('d-m-Y H:i') }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+

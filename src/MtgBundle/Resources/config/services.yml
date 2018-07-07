@@ -1,31 +1,25 @@
 services:
-    mtg.card:
-        class: 'MtgBundle\Service\MtgCardService'
-        public: true
-        arguments: [ "@doctrine.orm.entity_manager" ]
+    _defaults:
+        public: false
+        autoconfigure: true
+        autowire: true
 
-    mtg.set:
-        class: 'MtgBundle\Service\MtgSetService'
-        public: true
-        arguments: [ "@doctrine.orm.entity_manager" ]
-
-    mtg.collection:
-        class: 'MtgBundle\Service\MtgCollectionService'
-        public: true
-        arguments: [ "@doctrine.orm.entity_manager", "@mtg.card"]
-
-    mtg.extrainfo:
-        class: 'MtgBundle\Service\MtgExtraLiveDataService'
-        public: true
+    MtgBundle\Service\:
+        resource: '../../Service/'
+        autowire: true
         arguments: [ "@doctrine.orm.entity_manager"]
 
-    mtg.deck:
-        class: 'MtgBundle\Service\MtgDeckService'
-        public: true
-        arguments: [ "@doctrine.orm.entity_manager"]
+    MtgBundle\Controller\:
+        resource: '../../Controller'
+        #tags: ['controller.service_arguments']
 
     mtg.symbol_extension:
         class: MtgBundle\Twig\MtgSymbolExtension
         tags:
             - { name: twig.extension }
         autowire: true
+    FOS\MessageBundle\Composer\Composer: '@fos_message.composer'
+
+    FOS\MessageBundle\Sender\Sender: '@fos_message.sender'
+
+    FOS\MessageBundle\Provider\Provider: '@fos_message.provider'

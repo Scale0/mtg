@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div id="exTab2" class="container">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a  href="#1" data-toggle="tab">Overview</a>
+            </li>
+            <li>
+                <a href="#2" data-toggle="tab">Decks</a>
+            </li>
+            <li>
+                <a href="#3" data-toggle="tab">
+                    {% if app.user is not null %}
+                        {% if app.user == profileUser %}
+                            inbox
+                            {% if fos_message_nb_unread() > 0 %}<b>{% endif %}
+                            ({{ fos_message_nb_unread() }})
+                            {% if fos_message_nb_unread() > 0 %}</b>{% endif %}
+                        {% else %}
+                            Message
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content ">
+            <div class="tab-pane active" id="1">
+                <table id="collectionTable" class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Set</th>
+                        <th>Rarity</th>
+                        <th>Kleuren</th>
+                        {% if app.user is not null %}
+                            <th>
+                                x
+                            </th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    {% for collectionRow in collectionRows %}
+                        {% include 'MtgBundle:Collection:cardrow.html.twig' with {'collectionRow': collectionRow} %}
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="tab-pane" id="2">
+                {% for deck in decks %}
+                    <a href="{{ path('mtg_deck_view', {'id': deck.id }) }}">{{ deck.name }}</a> <br />
+                {% endfor %}
+            </div>
+            <div class="tab-pane" id="3">
+                {% if app.user is not null %}
+                    {% if app.user == profileUser %}
+                        {% include 'MtgBundle:User:inbox.html.twig' %}
+                    {% else %}
+                        Message
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+{% endblock %}
