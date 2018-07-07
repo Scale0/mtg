@@ -47,6 +47,11 @@ class CardSet
      * @ORM\Column(type="string")
      */
     private $icon;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $parent;
     #endregion
 
     #region getters
@@ -99,6 +104,16 @@ class CardSet
     {
         return $this->icon;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+
 
 
     #endregion
@@ -161,6 +176,18 @@ class CardSet
     public function setIcon($icon)
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $parent
+     *
+     * @return $this
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
 
         return $this;
     }

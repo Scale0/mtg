@@ -39,6 +39,29 @@ class MtgSetService extends MtgService
     }
 
     /**
+     * @param     $code
+     * @param int $page
+     *
+     * @return int
+     */
+    public function getAllCardsBySet($code, $page = 1)
+    {
+        usleep(100000);
+        if ($page == 5) {
+            die('mislukt');
+        }
+        $url = 'https://api.scryfall.com/cards/search?order=set&q=e%3A' .$code . '&page=' . $page . '&unique=prints';
+        $cardObject = $this->getResultsFromUrl($url);
+        $cards = $cardObject->data;
+        if ($cardObject->has_more) {
+            $page = $page +1;
+            $extraCard = $this->getAllCardsBySet($code, $page);
+            $cards = array_merge(array_values($cards), array_values($extraCard));
+        }
+        return $cards;
+    }
+
+    /**
      * @param $code
      *
      * @return CardSet
@@ -54,18 +77,37 @@ class MtgSetService extends MtgService
      * @return CardSet
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function saveSet($set)
+    public function saveSet($set, $skipFlush = false)
     {
-        $newSet = new CardSet();
+        $newSet = $this->CardSetExists($set);
+        if (!$newSet) {
+            $newSet = new CardSet();
+        }
         $releaseDate = !empty($set->released_at) ? new \DateTime($set->released_at) : null;
+        $icon = strstr($set->icon_svg_uri, "?", true);
         $newSet
             ->setName($set->name)
             ->setCode($set->code)
             ->setCardCount($set->card_count)
-            ->setIcon($set->icon_svg_uri)
+            ->setIcon($icon)
             ->setReleaseDate($releaseDate);
+        if (isset($set->parent_set_code)) {
+            $newSet->setParent($set->parent_set_code);
+        }
         $this->em->persist($newSet);
-        $this->em->flush();
+        if (!$skipFlush) {
+            $this->em->flush();
+        }
         return $newSet;
+    }
+
+    public function update()
+    {
+        $sets = $this->getResultsFromUrl('https://api.scryfall.com/sets');
+        foreach($sets->data as $set) {
+            $this->saveSet($set, true);
+        }
+        $this->em->flush();
+        die();
     }
 }
