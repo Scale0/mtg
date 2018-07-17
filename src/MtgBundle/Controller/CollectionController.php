@@ -14,7 +14,10 @@ class CollectionController extends Controller
 
     private $collectionService;
     private $cardService;
-    public function __construct(MtgCollectionService $collectionService, MtgCardService $cardService)
+    public function __construct(
+        MtgCollectionService $collectionService,
+        MtgCardService $cardService
+    )
     {
         $this->collectionService = $collectionService;
         $this->cardService = $cardService;
