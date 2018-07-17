@@ -11,15 +11,15 @@ services:
 
     MtgBundle\Controller\:
         resource: '../../Controller'
-        #tags: ['controller.service_arguments']
+        tags: ['controller.service_arguments']
 
     mtg.symbol_extension:
         class: MtgBundle\Twig\MtgSymbolExtension
         tags:
             - { name: twig.extension }
         autowire: true
-    FOS\MessageBundle\Composer\Composer: '@fos_message.composer'
 
+    FOS\MessageBundle\Composer\Composer: '@fos_message.composer'
     FOS\MessageBundle\Sender\Sender: '@fos_message.sender'
 
     FOS\MessageBundle\Provider\Provider: '@fos_message.provider'
