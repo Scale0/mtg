@@ -2,6 +2,7 @@
 
 namespace MtgBundle\Controller;
 
+use MtgBundle\Service\MtgCardService;
 use MtgBundle\Service\MtgSetService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,9 +10,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class SetController extends Controller
 {
     private $setService;
-    public function __construct(MtgSetService $setService)
+    private $cardService;
+    public function __construct(MtgSetService $setService, MtgCardService $cardService)
     {
         $this->setService = $setService;
+        $this->cardService = $cardService;
     }
     public function indexAction($name)
     {
@@ -34,7 +37,8 @@ class SetController extends Controller
      */
     public function getCompleteSet($code)
     {
-        dump($this->setService->getAllCardsBySet($code)); die();
+        $cards = $this->setService->getAllCardsBySet($code);
+        $this->cardService->saveListOfCards($cards);
     }
 
     /**

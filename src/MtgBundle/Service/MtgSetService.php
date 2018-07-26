@@ -42,18 +42,16 @@ class MtgSetService extends MtgService
      * @param     $code
      * @param int $page
      *
-     * @return int
+     * @return []
      */
     public function getAllCardsBySet($code, $page = 1)
     {
         usleep(100000);
-        if ($page == 5) {
-            die('mislukt');
-        }
         $url = 'https://api.scryfall.com/cards/search?order=set&q=e%3A' .$code . '&page=' . $page . '&unique=prints';
-        $cardObject = $this->getResultsFromUrl($url);
-        $cards = $cardObject->data;
-        if ($cardObject->has_more) {
+
+        $cardObject = $this->getResultsFromUrl($url, true);
+        $cards = $cardObject['data'];
+        if ($cardObject['has_more']) {
             $page = $page +1;
             $extraCard = $this->getAllCardsBySet($code, $page);
             $cards = array_merge(array_values($cards), array_values($extraCard));

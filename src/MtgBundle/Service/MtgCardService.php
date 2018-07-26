@@ -41,22 +41,22 @@ class MtgCardService extends MtgService
             return false;
         }
 
-        $cardSet = $this->em->getRepository("MtgBundle:cardSet")->findOneByCode($apiCard['set']);
+        $cardSet = $this->em->getRepository("MtgBundle:CardSet")->findOneByCode($apiCard['set']);
         $card = new Card();
 
         if (!empty($apiCard['card_faces']) && is_array($apiCard['card_faces'])) {
             foreach($apiCard['card_faces'] as $cardFace) {
                 $newCardFace = new CardFace();
                 $newCardFace->setName($cardFace['name'])
-                    ->setTypeLine($cardFace['type_line'])
+                    ->setTypeLine($cardFace['type_line'] ?? null)
                     ->setPower($cardFace['power'] ?? null)
                     ->setToughness($cardFace['toughness'] ?? null)
-                    ->setColors($cardFace['colors'])
+                    ->setColors($cardFace['colors'] ?? null)
                     ->setFlavorText($cardFace['flavor_text'] ?? null)
                     ->setImgUrl($cardFace['image_uris']['normal'])
                     ->setLoyalty($cardFace['loyalty'] ?? null )
-                    ->setManaCost($cardFace['mana_cost'])
-                    ->setOracleText($cardFace['oracle_text'])
+                    ->setManaCost($cardFace['mana_cost'] ?? null)
+                    ->setOracleText($cardFace['oracle_text'] ?? null)
                     ->setCard($card)
                 ;
                 $card->addCardFace($newCardFace);
@@ -64,15 +64,15 @@ class MtgCardService extends MtgService
         } else {
             $newCardFace = new CardFace();
             $newCardFace->setName($apiCard['name'])
-                ->setTypeLine($apiCard['type_line'])
+                ->setTypeLine($apiCard['type_line'] ?? null)
                 ->setPower($apiCard['power'] ?? null)
                 ->setToughness($apiCard['toughness'] ?? null)
-                ->setColors($apiCard['colors'])
+                ->setColors($apiCard['colors'] ?? null)
                 ->setFlavorText($apiCard['flavor_text'] ?? null)
                 ->setImgUrl($apiCard['image_uris']['normal'])
                 ->setLoyalty($apiCard['loyalty'] ?? null )
-                ->setManaCost($apiCard['mana_cost'])
-                ->setOracleText($apiCard['oracle_text'])
+                ->setManaCost($apiCard['mana_cost'] ?? null)
+                ->setOracleText($apiCard['oracle_text'] ?? null)
                 ->setCard($card)
             ;
             $card->addCardFace($newCardFace);
@@ -103,7 +103,6 @@ class MtgCardService extends MtgService
             ->getBySetAndCollection($set, $collectionId)
         ;
 
-
         if ($existingCard) {
             return $existingCard;
         }
@@ -130,7 +129,7 @@ class MtgCardService extends MtgService
     {
         $url = 'https://api.scryfall.com/cards/search?order=set&q=!%22' . str_replace(" ", "%20", $card->getName()) . '%22&unique=prints';
         $prints = $this->getResultsFromUrl($url)->data;
-        $setService = $cardSet = $this->em->getRepository("MtgBundle:cardSet");
+        $setService = $cardSet = $this->em->getRepository("MtgBundle:CardSet");
         $return = [];
         foreach($prints as $print){
             $set = $setService->findOneByCode($print->set);
@@ -142,6 +141,18 @@ class MtgCardService extends MtgService
             ];
         }
         return $return;
+    }
+
+    public function saveListOfCards($cardList)
+    {
+        $i = 0;
+        foreach($cardList as $card) {
+            $cardObject = $this->saveCardObject($card);
+            $this->em->persist($cardObject);
+            $i++;
+        }
+        $this->em->flush();
+        die('in totaal ' . $i . ' kaarten toegevoegd');
     }
 
     public function updateCards()
