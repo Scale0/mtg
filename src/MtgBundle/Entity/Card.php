@@ -2,6 +2,7 @@
 
 namespace MtgBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,41 +30,7 @@ class Card
     /**
      * @ORM\Column(type="string")
      */
-    private $imgUrl;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     private $name;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $type_line;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $type;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $subtype;
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $oracle_text;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $flavor_text;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $mana_cost;
 
     /**
      * @ORM\Column(type="integer")
@@ -81,24 +48,14 @@ class Card
     private $rarity;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $power;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $toughness;
-
-    /**
-     * @ORM\Column(type="json_array")
-     */
-    private $colors;
-
-    /**
      * @ORM\Column(type="json_array")
      */
     private $legality;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MtgBundle\Entity\CardFace", mappedBy="card",cascade={"persist"})
+     */
+    private $faces;
 
     #region getters
     /**
@@ -122,66 +79,17 @@ class Card
     /**
      * @return mixed
      */
-    public function getImgUrl()
-    {
-        return $this->imgUrl;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getName()
     {
         return $this->name;
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
-    public function getTypeLine()
+    public function getConvertedManaCosts()
     {
-        return $this->type_line;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getType()
-    {
-        return cardType::getType($this->type);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubtype()
-    {
-        return $this->subtype;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getOracleText()
-    {
-        return $this->oracle_text;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFlavorText()
-    {
-        return $this->flavor_text;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getManaCost()
-    {
-        return $this->mana_cost;
+        return $this->convertedManaCosts;
     }
 
     /**
@@ -201,30 +109,6 @@ class Card
     }
 
     /**
-     * @return integer
-     */
-    public function getPower()
-    {
-        return $this->power;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getToughness()
-    {
-        return $this->toughness;
-    }
-
-    /**
-     * @return json_array
-     */
-    public function getColors()
-    {
-        return $this->colors;
-    }
-
-    /**
      * @return mixed
      */
     public function getLegality()
@@ -233,11 +117,11 @@ class Card
     }
 
     /**
-     * @return integer
+     * @return ArrayCollection|CardFace[]
      */
-    public function getConvertedManaCosts()
+    public function getFaces()
     {
-        return $this->convertedManaCosts;
+        return $this->faces;
     }
 
     #endregion
@@ -256,18 +140,6 @@ class Card
     }
 
     /**
-     * @param mixed $imgUrl
-     *
-     * @return $this
-     */
-    public function setImgUrl($imgUrl)
-    {
-        $this->imgUrl = $imgUrl;
-
-        return $this;
-    }
-
-    /**
      * @param mixed $name
      *
      * @return $this
@@ -280,55 +152,13 @@ class Card
     }
 
     /**
-     * @param mixed $type_line
+     * @param integer $convertedManaCosts
      *
      * @return $this
      */
-    public function setTypeLine($type_line)
+    public function setConvertedManaCosts($convertedManaCosts)
     {
-        $this->type_line = $type_line;
-
-        $type = explode(" — ", $type_line);
-
-        $this->subtype = !empty($type[1]) ? $type[1] : null;
-        $type = cardType::getId($type[0]);
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $oracle_text
-     *
-     * @return $this
-     */
-    public function setOracleText($oracle_text)
-    {
-        $this->oracle_text = $oracle_text;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $flavor_text
-     *
-     * @return $this
-     */
-    public function setFlavorText($flavor_text)
-    {
-        $this->flavor_text = $flavor_text;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $mana_cost
-     *
-     * @return $this
-     */
-    public function setManaCost($mana_cost)
-    {
-        $this->mana_cost = $mana_cost;
+        $this->convertedManaCosts = $convertedManaCosts;
 
         return $this;
     }
@@ -358,41 +188,10 @@ class Card
     }
 
     /**
-     * @param mixed $power
+     * @param $legality
      *
      * @return $this
      */
-    public function setPower($power)
-    {
-        $this->power = $power;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $toughness
-     *
-     * @return $this
-     */
-    public function setToughness($toughness)
-    {
-        $this->toughness = $toughness;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $colors
-     *
-     * @return $this
-     */
-    public function setColors($colors)
-    {
-        $this->colors = $colors;
-
-        return $this;
-    }
-
     public function setLegality($legality)
     {
         $this->legality = $legality;
@@ -401,13 +200,13 @@ class Card
     }
 
     /**
-     * @param integer $convertedManaCosts
+     * @param CardFace $cardFace
      *
      * @return $this
      */
-    public function setConvertedManaCosts($convertedManaCosts)
+    public function addCardFace(CardFace $cardFace)
     {
-        $this->convertedManaCosts = $convertedManaCosts;
+        $this->faces[] = $cardFace;
 
         return $this;
     }
@@ -415,37 +214,4 @@ class Card
 
     #endregion
 
-}
-
-final class cardType {
-    private static $types = [
-        0   => 'unknown',
-        1   => 'Artifact',
-        2   => 'Creature',
-        4   => 'Basic Land',
-        8   => 'Card',
-        16  => 'Emblem',
-        32  => 'Enchantment',
-        64  => 'Instant',
-        128 => 'Land',
-        256 => 'Sorcery',
-        512 => 'Planeswalker'
-    ];
-
-    public static function getType($id)
-    {
-        return self::$types[$id];
-    }
-
-    /**
-     * @param $type
-     *
-     * @return false|int|string
-     */
-
-    public static function getId($type)
-    {
-        $type = str_replace('Legendary ' ,'', $type);
-        return array_search($type, self::$types);
-    }
 }

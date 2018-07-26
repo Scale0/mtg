@@ -21,6 +21,13 @@
             imageToggle();
         });
 
+        $('.doubleFacedCards').not(":first").hide();
+
+
+        $('.toggleDoubleFacedCards').on('click', function() {
+            $('.doubleFacedCards').fadeToggle("fast");
+        });
+
     });
 
 

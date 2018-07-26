@@ -80,7 +80,14 @@ class CardController extends Controller
         $decks = $this->deckService->getDecks($this->getUser());
 
         $prints = [];
-        if (!in_array($card->getType(), ['Basic Land', 'Land'])) {
+
+        $faces = $card->getFaces();
+
+        $types = [];
+        foreach ($faces as $face) {
+            $types = array_merge($types, [$face->getType()]);
+        }
+        if (!in_array($types, ['Basic Land', 'Land'])) {
             $prints = $this->cardService->getPrints($card);
         }
 
