@@ -1,0 +1,118 @@
+{% set i = 0 %}
+{% for face in card.faces %}
+    <div class="col-md-12 doubleFacedCards">
+    <div class="col-md-6">
+        <img src="{{ asset(face.imgUrl) }}">
+    </div>
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <td colspan="2"><span class="toggleDoubleFacedCards"><img style="height: 20px;" src="{{ asset('images/symbols/icon__trade.svg') }}"></span></td>
+            </tr>
+            <tr>
+                <td>Naam:</td>
+                <td>{{ face.name }}</td>
+            </tr>
+            {% if is_granted('ROLE_USER') %}
+                {% if collectedCount > 0 %}
+                    <tr>
+                        <td colspan="2">
+                            je hebt deze kaart {{ collectedCount }} keer!
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td colspan="2">
+                        <a href="{{ path('mtg_collection_addcardtocollection', {'setCode': card.cardSet.code, 'collectionId': card.CollectionId}) }}">Deze heb ik!</a></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <form action="{{ path('mtg_deck_addcard') }}" method="POST">
+                            <input type="hidden" name="set" value="{{ card.cardSet.code }}">
+                            <input type="hidden" name="card" value="{{ card.collectionId }}">
+                            Voeg kaart to aan: <select class="form-inline" name="deck">
+                                {% for deck in decks %}
+                                    <option value="{{ deck.id }}" onclick="{{ path('mtg_deck_addcardtodeck', {'deckId': deck.id,'setCode': card.cardSet.code, 'cardCollectionId': card.collectionId}) }}">{{ deck.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <select class="form-inline" name="amount">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <input type="submit" class="form-inline" value="Voeg toe">
+                        </form>
+                    </td>
+                </tr>
+            {%  endif %}
+            <tr>
+                <td>Collectie ID:</td>
+                <td>{{ card.collectionId }}</td>
+            </tr>
+            <tr>
+                <td>set:</td>
+                <td><img class="symbol" src="{{ card.cardSet.icon }}"> {{ card.cardSet.name }}</td>
+            </tr>
+            {% if face.manaCost %}
+            <tr>
+                <td>mana:</td>
+                <td>
+                    {{ face.manaCost|symbol }}
+                </td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td>Rarity:</td>
+                <td>{{ card.rarity }}</td>
+            </tr>
+            <tr>
+                <td>type:</td>
+                <td>{{ face.type }}</td>
+            </tr>
+            <tr>
+                <td>subtype:</td>
+                <td>{{ face.subtype }}</td>
+            </tr>
+            <tr>
+                <td>inhoudstekst:</td>
+                <td>{{ face.oracleText|symbol }}</td>
+            </tr>
+            {% if face.flavorText %}
+                <tr>
+                    <td>Extra tekst:</td>
+                    <td><i>{{ face.flavorText }}</i></td>
+                </tr>
+            {% endif %}
+            {% if face.loyalty %}
+                <tr>
+                    <td>Loyalty:</td>
+                    <td>{{ face.loyalty }}</td>
+                </tr>
+            {% endif %}
+            {% if face.power %}
+                <tr>
+                    <td>{% if face.type == 'Planeswalker' %}Loyalty{% else %}power{% endif %}:</td>
+                    <td>{{ face.power }}</td>
+                </tr>
+            {% endif %}
+            {% if face.toughness %}
+                <tr>
+                    <td>toughness:</td>
+                    <td>{{ face.toughness }}</td>
+                </tr>
+            {% endif %}
+            {% if face.colors is not empty %}
+                <tr>
+                    <td>kleuren:</td>
+                    <td>
+                        {% for color in face.colors %}
+                            <img class="symbol" src="{{ asset('images/symbols/mana/' ~ color ~'.svg') }}">
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+    </div>
+{% endfor %}
