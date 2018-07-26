@@ -10,8 +10,15 @@
             <th>x </th>
         </tr>
         </thead>
+        {% set ownCollection = app.user is not null and app.user is same as(collectionRows.0.user) %}
+        {% set othersCollection = app.user is not null and app.user is not same as(collectionRows.0.user) %}
         {% for collectionRow in collectionRows %}
-           {% include 'MtgBundle:Collection:cardrow.html.twig' with {'collectionRow': collectionRow} %}
+           {% include 'MtgBundle:Collection:cardrow.html.twig' with
+               {
+                   'collectionRow': collectionRow,
+                   'ownCollection': ownCollection,
+                   'othersCollection': othersCollection
+               } %}
         {% endfor %}
     </table>
 {% endblock %}
