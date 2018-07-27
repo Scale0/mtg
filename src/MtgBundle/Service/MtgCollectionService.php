@@ -94,12 +94,8 @@ class MtgCollectionService extends MtgService
     {
         foreach($cards as $cardId) {
             $card = $this->cardService->get($set, intval($cardId));
-            $collectedCard = new CardCollection();
-            $collectedCard->setUser($user)
-                ->setCard($card);
-            $this->em->persist($collectedCard);
+            $this->addCardToCollection($card, $user);
         }
-        $this->em->flush();
     }
 
     /**

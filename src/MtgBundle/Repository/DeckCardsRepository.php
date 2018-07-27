@@ -4,6 +4,7 @@ namespace MtgBundle\Repository;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use MtgBundle\Entity\Card;
+use MtgBundle\Entity\CardFace;
 use MtgBundle\Entity\Deck;
 use MtgBundle\Entity\DeckCards;
 
@@ -27,8 +28,9 @@ class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
             ->select('DC')
             ->from('MtgBundle:DeckCards','DC')
             ->join(Card::class,'card','with','DC.card = card')
+            ->join(CardFace::class, 'CardFace', 'with', 'CardFace.card = card')
             ->where('DC.deck = :deck')
-            ->orderBy('card.type', 'DESC')
+            ->orderBy('CardFace.type', 'DESC')
             ->setParameter('deck', $deck)
             ->getQuery();
 
@@ -48,7 +50,8 @@ class DeckCardsRepository extends \Doctrine\ORM\EntityRepository
             ->select('DC')
             ->from('MtgBundle:DeckCards', 'DC')
             ->join(Card::class,'card','with', 'DC.card = card')
-            ->Where('card.type in (:types)')
+            ->join(CardFace::class, 'CardFace', 'with', 'CardFace.card = card')
+            ->Where('CardFace.type in (:types)')
             ->andWhere('DC.deck = :deck')
             ->setParameter(':deck', $deck)
             ->setParameter('types', [1,2,32,64,256,512])

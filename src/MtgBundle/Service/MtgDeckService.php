@@ -130,8 +130,8 @@ class MtgDeckService extends MtgService
         $cards = $this->em->getRepository('MtgBundle:DeckCards')
             ->findBy(['deck' => $deck]);
         foreach ($cards as $card) {
-            if (isset($card->getCard()->getColors()[0])) {
-                $key = $card->getCard()->getColors()[0];
+            if (isset($card->getCard()->getFaces()->first()->getColors()[0])) {
+                $key = $card->getCard()->getFaces()->first()->getColors()[0];
                 $deckColors[$key] =
                     (!empty($deckColors[$key]) ?
                         $deckColors[$key] + $card->getAmount() :

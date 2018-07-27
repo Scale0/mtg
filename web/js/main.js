@@ -6,7 +6,7 @@
                 trigger : 'hover',
                 html : true,
                 content : function () {
-                    return '<div class="media"><a href="#" class="pull-left"><img src="/images/cards/'+$(this).data('img')+'.jpg" height="340px" class="media-object"></a><div class="media-body"></div></div>'
+                    return '<div class="media"><a href="#" class="pull-left"><img src="'+$(this).data('img')+'" height="340px" class="media-object"></a><div class="media-body"></div></div>'
                 }
             });
         };
