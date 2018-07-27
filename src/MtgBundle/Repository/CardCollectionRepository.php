@@ -2,6 +2,8 @@
 
 namespace MtgBundle\Repository;
 
+use MtgBundle\Entity\User;
+use MtgBundle\Entity\Card;
 /**
  * CardCollectionRepository
  *
@@ -12,5 +14,21 @@ class CardCollectionRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findByUser($user) {
         return $this->findBy(['user' => $user]);
+    }
+
+    public function getCollectionByUserOrderedBySet(User $user)
+    {
+        $builder = $this->getEntityManager()->createQueryBuilder();
+        $query = $builder
+            ->select('CC')
+            ->from('MtgBundle:CardCollection', 'CC')
+            ->join(Card::class,'Card','with', 'CC.card = Card')
+            ->andWhere('CC.user = :user')
+            ->setParameter(':user', $user)
+            ->orderBy('Card.CardSet', 'desc')
+            ->addOrderBy('Card.collectionId', 'asc')
+            ->getQuery();
+
+        return $query->execute();
     }
 }

@@ -121,4 +121,18 @@ class MtgCollectionService extends MtgService
         return $fromCollection;
     }
 
+    /**
+     * @param $user
+     *
+     * @return array|CardCollection[]
+     */
+    public function getCollectionByUserOrderedBySet($user)
+    {
+        $collection = $this->em->getRepository('MtgBundle:CardCollection')
+            ->getCollectionByUserOrderedBySet($user);
+
+        return $collection;
+    }
+
+
 }
