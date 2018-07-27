@@ -8,6 +8,7 @@ use MtgBundle\Service\MtgCollectionService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class CollectionController extends Controller
 {
@@ -87,5 +88,29 @@ class CollectionController extends Controller
         $collectionRows = $this->collectionService->getRows($this->getUser());
 
         return $this->render('MtgBundle:Collection:collection.html.twig', ['collectionRows' => $collectionRows]);
+    }
+
+    /**
+     * @return string
+     * @Route("/collection/export")
+     */
+    public function exportCollection()
+    {
+        $collection = $this->collectionService->getCollectionByUserOrderedBySet($this->getUser());
+        $currentSet = '';
+
+        $out = '';
+
+        foreach($collection as $collectionRow) {
+            if ($currentSet != $collectionRow->getCard()->getCardSet()->getCode()) {
+                $currentSet = $collectionRow->getCard()->getCardSet()->getCode();
+                $out .= "<br />" . $currentSet . "<br />";
+            }
+            for($i = 0; $i <= $collectionRow->getAmount(); $i++) {
+                $out .= str_pad($collectionRow->getCard()->getCollectionId(), 3, '0', STR_PAD_LEFT);
+            }
+        }
+
+        return new Response($out);
     }
 }
