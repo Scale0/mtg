@@ -39,30 +39,6 @@ class DeckController extends Controller
     }
 
     /**
-     * @param $id
-     * @Route("/deck/{id}")
-     */
-    public function view($id)
-    {
-
-        $deckCards = $this->deckService->getDeckCards($id);
-        $deck = $this->deckService->getDeck($id);
-        if (!$deck) {
-            die('deck bestaat niet');
-        }
-        $charts = $this->deckService->buildCharts($deck);
-        
-        $exampleHand = $this->deckService->exampleHand($deck);
-
-        return $this->render('MtgBundle:Deck:view.html.twig', [
-            'deck' => $deck,
-            'cards' => $deckCards,
-            'charts' => $charts,
-            'exampleHand' => $exampleHand
-        ]);
-    }
-
-    /**
      * @param $deckId
      * @param $setCode
      * @param $cardCollectionId
@@ -95,5 +71,29 @@ class DeckController extends Controller
             return $this->redirectToRoute('mtg_deck_view', ['id' => $deck->getId()]);
         }
         return $this->redirectToRoute('mtg_card_index');
+    }
+
+    /**
+     * @param $id
+     * @Route("/deck/{id}")
+     */
+    public function view($id)
+    {
+
+        $deckCards = $this->deckService->getDeckCards($id);
+        $deck = $this->deckService->getDeck($id);
+        if (!$deck) {
+            die('deck bestaat niet');
+        }
+        $charts = $this->deckService->buildCharts($deck);
+
+        $exampleHand = $this->deckService->exampleHand($deck);
+
+        return $this->render('MtgBundle:Deck:view.html.twig', [
+            'deck' => $deck,
+            'cards' => $deckCards,
+            'charts' => $charts,
+            'exampleHand' => $exampleHand
+        ]);
     }
 }
