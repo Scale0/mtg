@@ -153,7 +153,7 @@ class MtgDeckService extends MtgService
             ->findBy(['deck' => $deck]);
 
         foreach($cards as $card) {
-            $key = $card->getCard()->getType();
+            $key = $card->getCard()->getFaces()->first()->getType();
             $deckTypes[$key] =
                 (!empty($deckTypes[$key]) ?
                     $deckTypes[$key] + $card->getAmount() :
