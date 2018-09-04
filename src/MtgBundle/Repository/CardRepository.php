@@ -23,4 +23,23 @@ class CardRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->findOneBy(['CardSet' => $set, 'collectionId' => $collection_id]);
     }
+
+    public function getArrayBySetAndCollectionIds($set, $collectionIds)
+    {
+        $values = array_count_values($collectionIds);
+        foreach($values as $key => $value) {
+            $values2[intval($key)] = $value;
+        }
+        $values = $values2;
+        $cards = $this->findBy(['CardSet' => $set, 'collectionId' => array_keys($values)]);
+        $returnArray = [];
+        foreach($cards as $card) {
+            $collectionId = $card->getCollectionId();
+            $count = $values[$collectionId];
+            for($i = 1; $i <= $count; $i++) {
+                $returnArray[] = $card;
+            }
+        }
+        return $returnArray;
+    }
 }

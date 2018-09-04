@@ -155,6 +155,15 @@ class MtgCardService extends MtgService
         die('in totaal ' . $i . ' kaarten toegevoegd');
     }
 
+    public function getArrayOfCardsByCollectionIds($setCode, $collectionIds)
+    {
+        $set = $this->em->getRepository('MtgBundle:CardSet')->findOneByCode($setCode);
+
+        $cards = $this->em->getRepository('MtgBundle:Card')->getArrayBySetAndCollectionIds($set, $collectionIds);
+
+        return $cards;
+    }
+
     public function updateCards()
     {
         #foreach($cards as $card) {
