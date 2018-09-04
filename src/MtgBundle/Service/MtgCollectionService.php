@@ -92,8 +92,9 @@ class MtgCollectionService extends MtgService
      */
     public function addArrayToCollection($set, array $cards, User $user)
     {
-        foreach($cards as $cardId) {
-            $card = $this->cardService->get($set, intval($cardId));
+        $cardObjects = $this->cardService->getArrayOfCardsByCollectionIds($set, $cards);
+
+        foreach($cardObjects as $card) {
             $this->addCardToCollection($card, $user);
         }
     }
@@ -129,10 +130,9 @@ class MtgCollectionService extends MtgService
     public function getCollectionByUserOrderedBySet($user)
     {
         $collection = $this->em->getRepository('MtgBundle:CardCollection')
-            ->getCollectionByUserOrderedBySet($user);
+            ->getCollectionByUserOrderedBySet($user)
+        ;
 
         return $collection;
     }
-
-
 }
