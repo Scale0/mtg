@@ -251,7 +251,7 @@ class MtgDeckService extends MtgService
             }
         }
         $randomKeys = array_rand($deckCards, 7);
-        $returnHand = [];
+        shuffle($randomKeys);
         foreach($randomKeys as $key => $value) {
             $returnHand[] = $deckCards[$value];
         }
