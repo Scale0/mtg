@@ -3,6 +3,7 @@
 namespace Mtg\Domain\Model\Card\CardFace;
 
 use Assert\Assertion;
+use Doctrine\Common\Collections\ArrayCollection;
 use Mtg\Domain\Model\Card\Type\Type;
 
 abstract class CardFace
@@ -15,6 +16,9 @@ abstract class CardFace
 
     private $type;
 
+    /**
+     * @var ArrayCollection[]
+     */
     private $subtype;
 
     private $type_line;
