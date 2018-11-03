@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace Mtg\Domain\Model\Card\Type\Spell;
 

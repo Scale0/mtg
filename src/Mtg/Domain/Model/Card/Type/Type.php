@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sjoerddewaard
- * Date: 12-09-18
- * Time: 20:01
- */
+declare(strict_types = 1);
 
 namespace Mtg\Domain\Model\Card\Type;
 

@@ -2,6 +2,7 @@
 
 namespace Mtg\Domain\Model\Card;
 
+use Assert\Assertion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mtg\Domain\Model\Card\CardFace\CardFace;
 
@@ -183,12 +184,12 @@ class Card
      */
     public function addFace(CardFace $face)
     {
-        if ($face instanceof CardFace && count($this->faces) <= 1) {
-            $this->faces[] = $face;
+        Assertion::nullOrIsInstanceOf($face, CardFace::class);
+        if ($this->faces->count() <= 1) {
+            $this->faces->add($face);
         }
 
         return $this;
     }
-
 
 }

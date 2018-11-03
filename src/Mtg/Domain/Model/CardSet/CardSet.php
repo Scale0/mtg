@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sjoerddewaard
- * Date: 30-09-18
- * Time: 21:09
- */
+declare(strict_types = 1);
 
 namespace Mtg\Domain\Model\CardSet;
 
