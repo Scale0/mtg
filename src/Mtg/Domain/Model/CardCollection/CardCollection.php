@@ -84,7 +84,7 @@ class CardCollection
      *
      * @return $this
      */
-    public function setAmount(int $amount): Card
+    public function setAmount(int $amount): CardCollection
     {
         $this->amount = $amount;
 
