@@ -27,7 +27,7 @@ class CardCollection
      */
     private $amount = 1;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -45,7 +45,7 @@ class CardCollection
      *
      * @return $this
      */
-    public function setUser($user): Card
+    public function setUser($user): CardCollection
     {
         $this->user = $user;
 
@@ -65,7 +65,7 @@ class CardCollection
      *
      * @return $this
      */
-    public function setCard(Card $card): Card
+    public function setCard(Card $card): CardCollection
     {
         $this->card = $card;
 

@@ -7,22 +7,40 @@ use Assert\Assertion;
 
 class CardSet
 {
+    /**
+     * @var string
+     */
     private $name;
 
+    /**
+     * @var string
+     */
     private $code;
 
+    /**
+     * @var \DateTime
+     */
     private $releaseDate;
 
+    /**
+     * @var int
+     */
     private $cardCount;
 
+    /**
+     * @var string
+     */
     private $icon;
 
+    /**
+     * @var CardSet
+     */
     private $parent;
 
     /**
      * @return mixed
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -42,7 +60,7 @@ class CardSet
     /**
      * @return mixed
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -63,7 +81,7 @@ class CardSet
     /**
      * @return mixed
      */
-    public function getReleaseDate()
+    public function getReleaseDate(): \DateTime
     {
         return $this->releaseDate;
     }
@@ -84,7 +102,7 @@ class CardSet
     /**
      * @return mixed
      */
-    public function getCardCount()
+    public function getCardCount(): int
     {
         return $this->cardCount;
     }
@@ -103,15 +121,15 @@ class CardSet
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->icon;
     }
 
     /**
-     * @param mixed $icon
+     * @param string $icon
      *
      * @return $this
      */
@@ -126,7 +144,7 @@ class CardSet
     /**
      * @return mixed
      */
-    public function getParent()
+    public function getParent(): CardSet
     {
         return $this->parent;
     }

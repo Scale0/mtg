@@ -6,27 +6,44 @@
  * Time: 11:20
  */
 
+declare(strict_types = 1);
+
 namespace Mtg\Infrastructure\Persistence\Doctrine;
 
 use Doctrine\ORM\EntityRepository;
 use Mtg\Domain\Model\Card\Card;
 use Mtg\Domain\Model\Card\CardRepositoryInterface;
 
-class DoctrineCardRepsitory extends EntityRepository implements CardRepositoryInterface
+final class DoctrineCardRepository extends EntityRepository implements CardRepositoryInterface
 {
-    public function getCard($cardId): Card
+    /**
+     * @param $cardId
+     *
+     * @return Card|null
+     */
+    public function getCard($cardId): ?Card
     {
-        // TODO: Implement getCard() method.
+        return $this->find($cardId);
     }
 
+    /**
+     * @return array
+     */
     public function getAll(): array
     {
-        // TODO: Implement getAll() method.
+        return $this->findAll();
     }
 
+    /**
+     * @param Card $card
+     *
+     * @return Card
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function store(Card $card): void
     {
-        // TODO: Implement store() method.
+        $this->getEntityManager()->persist($card);
+        $this->getEntityManager()->flush();
     }
 
 }

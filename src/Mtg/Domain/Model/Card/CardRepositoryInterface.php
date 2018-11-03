@@ -10,7 +10,7 @@ namespace Mtg\Domain\Model\Card;
 
 interface CardRepositoryInterface
 {
-    public function getCard($cardId): Card;
+    public function getCard($cardId): ?Card;
 
     public function getAll(): array;
 

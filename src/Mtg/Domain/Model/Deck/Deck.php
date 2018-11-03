@@ -29,7 +29,7 @@ class Deck
      */
     private $cards = ArrayCollection::class;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
