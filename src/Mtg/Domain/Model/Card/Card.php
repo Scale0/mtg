@@ -1,41 +1,66 @@
 <?php
+declare(strict_types = 1);
 
 namespace Mtg\Domain\Model\Card;
 
 use Assert\Assertion;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mtg\Domain\Model\Card\CardFace\CardFace;
+use Mtg\Domain\Model\Card\Legality\Legality;
+use Mtg\Domain\Model\Card\Rarity\Rarity;
+use Mtg\Domain\Model\CardSet\CardSet;
 
 class Card
 {
 
+    /**
+     * @var int $collectionNumber
+     */
     private $collectionNumber;
 
+    /**
+     * @var string $name
+     */
     private $name;
 
+    /**
+     * @var CardSet $set
+     */
     private $set;
 
+    /**
+     * @var Rarity $rarity
+     */
     private $rarity;
 
+    /**
+     * @var int $convertedManaCost
+     */
     private $convertedManaCost;
 
+    /**
+     * @var Legality $legality
+     */
     private $legality;
 
-    /** @var ArrayCollection */
+    /** @var ArrayCollection $faces` */
     private $faces;
+
     /**
-     * Card constructor.
+     * @param         $collectionNumber
+     * @param         $name
+     * @param CardSet $set
+     * @param         $rarity
+     * @param         $convertedManaCost
+     * @param         $legality
      *
-     * @param $collectionNumber
-     * @param $name
-     * @param $set
-     * @param $rarity
-     * @param $convertedManaCost
-     * @param $legality
+     * @return Card
      */
-    public static function create($collectionNumber, $name, $set, $rarity, $convertedManaCost, $legality)
+    public static function create($collectionNumber, $name, CardSet $set, $rarity, $convertedManaCost, $legality)
     {
         $card = new self();
+        Assertion::nullOrInArray($rarity, Rarity::ALL);
+
         $card->faces = new ArrayCollection();
         $card
             ->setCollectionNumber($collectionNumber)
@@ -90,19 +115,19 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return CardSet
      */
-    public function getSet()
+    public function getSet(): CardSet
     {
         return $this->set;
     }
 
     /**
-     * @param mixed $set
+     * @param CardSet $set
      *
      * @return $this
      */
-    public function setSet($set)
+    public function setSet(CardSet $set)
     {
         $this->set = $set;
 
@@ -118,7 +143,7 @@ class Card
     }
 
     /**
-     * @param mixed $rarity
+     * @param Rarity $rarity
      *
      * @return $this
      */
@@ -164,7 +189,7 @@ class Card
      */
     public function setLegality($legality)
     {
-        $this->legality = $legality;
+        $this->legality = Legality::create($legality);
 
         return $this;
     }

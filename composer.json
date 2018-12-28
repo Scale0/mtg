@@ -21,6 +21,7 @@
     },
     "require": {
         "php": ">=5.5.9",
+        "beberlei/assert": "^3.0",
         "cmen/google-charts-bundle": "^3.0",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
@@ -43,7 +44,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "nelmio/alice": "2.1.4",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0"
+        "phpunit/phpunit": "^5.0"
     },
     "scripts": {
         "symfony-scripts": [

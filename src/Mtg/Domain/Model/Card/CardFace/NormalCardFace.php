@@ -5,15 +5,30 @@ namespace Mtg\Domain\Model\Card\CardFace;
 
 class NormalCardFace extends CardFace
 {
+    /**
+     * @var int $power
+     */
     private $power;
 
+    /**
+     * @var int $toughness
+     */
     private $toughness;
 
     /**
-     * NormalCardFace constructor.
-     *
+     * @param $name
+     * @param $imgUrl
+     * @param $mana_cost
+     * @param $type
+     * @param $subtype
+     * @param $type_line
+     * @param $oracle_text
+     * @param $flavor_text
+     * @param $colors
      * @param $power
      * @param $toughness
+     *
+     * @return NormalCardFace
      */
     public static function create(
         $name,
@@ -28,7 +43,7 @@ class NormalCardFace extends CardFace
         $power,
         $toughness)
     {
-        $NormalCardFace = new self();
+        $NormalCardFace = new self;
         $NormalCardFace
             ->setName($name)
             ->setImgUrl($imgUrl)
@@ -46,7 +61,7 @@ class NormalCardFace extends CardFace
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getPower()
     {
@@ -54,7 +69,7 @@ class NormalCardFace extends CardFace
     }
 
     /**
-     * @param mixed $power
+     * @param int $power
      *
      * @return $this
      */
@@ -66,7 +81,7 @@ class NormalCardFace extends CardFace
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getToughness()
     {
@@ -74,7 +89,7 @@ class NormalCardFace extends CardFace
     }
 
     /**
-     * @param mixed $toughness
+     * @param int $toughness
      *
      * @return $this
      */

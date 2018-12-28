@@ -1,20 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sjoerddewaard
- * Date: 13/10/2018
- * Time: 11:20
- */
-
 declare(strict_types = 1);
 
-namespace Mtg\Infrastructure\Persistence\Doctrine;
+namespace Mtg\Infrastructure\Container\Infrastructure\Card;
 
 use Doctrine\ORM\EntityRepository;
-use Mtg\Domain\Model\Card\Card;
 use Mtg\Domain\Model\Card\CardRepositoryInterface;
+use Mtg\Domain\Model\Card\Card;
 
-final class DoctrineCardRepository extends EntityRepository implements CardRepositoryInterface
+class DoctrineCardRepository extends EntityRepository implements CardRepositoryInterface
 {
     /**
      * @param $cardId
@@ -37,13 +30,12 @@ final class DoctrineCardRepository extends EntityRepository implements CardRepos
     /**
      * @param Card $card
      *
-     * @return Card
+     * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function store(Card $card): void
     {
         $this->getEntityManager()->persist($card);
-        $this->getEntityManager()->flush();
+        $this->getEntityManager()->flush($card);
     }
-
 }

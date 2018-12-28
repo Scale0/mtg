@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Mtg\Application\Card;
+namespace Mtg\Application\Service\Card;
 
 use Mtg\Domain\Model\Card\CardRepositoryInterface;
 
@@ -22,4 +22,12 @@ class CardService
         $this->cardRepository = $cardRepository;
     }
 
+    public function findCardOrFail($collectionId, $set)
+    {
+        $card = $this->cardRepository->findByCollectionIdAndSet($collectionId, $set);
+        if (null === $card) {
+           # throw new CardDoesNotExistException();
+        }
+        return $card;
+    }
 }

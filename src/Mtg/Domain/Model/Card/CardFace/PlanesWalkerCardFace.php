@@ -5,12 +5,24 @@ namespace Mtg\Domain\Model\Card\CardFace;
 
 class PlanesWalkerCardFace extends CardFace
 {
+    /**
+     * @var int $loyalty
+     */
     private $loyalty;
 
     /**
-     * PlanesWalkerCardFace constructor.
-     *
+     * @param $name
+     * @param $imgUrl
+     * @param $mana_cost
+     * @param $type
+     * @param $subtype
+     * @param $type_line
+     * @param $oracle_text
+     * @param $flavor_text
+     * @param $colors
      * @param $loyalty
+     *
+     * @return PlanesWalkerCardFace
      */
     public static function create(
         $name,
@@ -25,7 +37,7 @@ class PlanesWalkerCardFace extends CardFace
         $loyalty)
     {
 
-        $PlanesWalkerCardFace = new self();
+        $PlanesWalkerCardFace = new self;
         $PlanesWalkerCardFace
             ->setName($name)
             ->setImgUrl($imgUrl)
@@ -42,7 +54,7 @@ class PlanesWalkerCardFace extends CardFace
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getLoyalty()
     {
@@ -50,7 +62,7 @@ class PlanesWalkerCardFace extends CardFace
     }
 
     /**
-     * @param mixed $loyalty
+     * @param int $loyalty
      *
      * @return $this
      */

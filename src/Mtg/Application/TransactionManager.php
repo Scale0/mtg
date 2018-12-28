@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sjoerddewaard
- * Date: 03/11/2018
- * Time: 13:49
- */
 
 namespace Mtg\Application;
 

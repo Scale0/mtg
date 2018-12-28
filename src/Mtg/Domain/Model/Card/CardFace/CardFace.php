@@ -13,7 +13,7 @@ abstract class CardFace
 
     private $imgUrl;
 
-    private $mana_cost;
+    private $manaCost;
 
     private $type;
 
@@ -22,11 +22,11 @@ abstract class CardFace
      */
     private $subtype;
 
-    private $type_line;
+    private $typeLine;
 
-    private $oracle_text;
+    private $oracleText;
 
-    private $flavor_text;
+    private $flavorText;
 
     private $colors;
 
@@ -75,17 +75,17 @@ abstract class CardFace
      */
     public function getManaCost()
     {
-        return $this->mana_cost;
+        return $this->manaCost;
     }
 
     /**
-     * @param mixed $mana_cost
+     * @param $manaCost
      *
      * @return $this
      */
-    protected function setManaCost($mana_cost)
+    protected function setManaCost($manaCost)
     {
-        $this->mana_cost = $mana_cost;
+        $this->manaCost = $manaCost;
 
         return $this;
     }
@@ -136,17 +136,17 @@ abstract class CardFace
      */
     public function getTypeLine()
     {
-        return $this->type_line;
+        return $this->typeLine;
     }
 
     /**
-     * @param mixed $type_line
+     * @param mixed $typeLine
      *
      * @return $this
      */
-    protected function setTypeLine($type_line)
+    protected function setTypeLine($typeLine)
     {
-        $this->type_line = $type_line;
+        $this->typeLine = $typeLine;
 
         return $this;
     }
@@ -156,17 +156,17 @@ abstract class CardFace
      */
     public function getOracleText()
     {
-        return $this->oracle_text;
+        return $this->oracleText;
     }
 
     /**
-     * @param mixed $oracle_text
+     * @param mixed $oracleText
      *
      * @return $this
      */
-    protected function setOracleText($oracle_text)
+    protected function setOracleText($oracleText)
     {
-        $this->oracle_text = $oracle_text;
+        $this->oracleText = $oracleText;
 
         return $this;
     }
@@ -176,17 +176,17 @@ abstract class CardFace
      */
     public function getFlavorText()
     {
-        return $this->flavor_text;
+        return $this->flavorText;
     }
 
     /**
-     * @param mixed $flavor_text
+     * @param $flavorText
      *
      * @return $this
      */
-    protected function setFlavorText($flavor_text)
+    protected function setFlavorText($flavorText)
     {
-        $this->flavor_text = $flavor_text;
+        $this->flavorText = $flavorText;
 
         return $this;
     }
