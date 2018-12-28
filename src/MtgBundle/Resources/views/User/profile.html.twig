@@ -32,6 +32,7 @@
                     <tr>
                         <th>Naam</th>
                         <th>Set</th>
+                        <th style="display:none;">Set</th>
                         <th>Rarity</th>
                         <th>Kleuren</th>
                         {% if app.user is not null %}
@@ -41,8 +42,12 @@
                         {% endif %}
                     </tr>
                     </thead>
+                    {% set ownCollection = app.user is not null and app.user is same as(collectionRows.0.user) %}
                     {% for collectionRow in collectionRows %}
-                        {% include 'MtgBundle:Collection:cardrow.html.twig' with {'collectionRow': collectionRow} %}
+                        {% include 'MtgBundle:Collection:cardrow.html.twig' with {
+                            'collectionRow': collectionRow,
+                            'ownCollection': ownCollection
+                        } %}
                     {% endfor %}
                 </table>
             </div>
