@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping
+        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Mtg\Domain\Model\Card\CardFace\CardFace"
+            table="card_face" repository-class="MtgBundle\Repository\CardFaceRepository">
+        <id name="id" type="integer" column="id" />
+        <field name="name" column="name"/>
+        <field name="imgUrl" column="img_url" />
+        <field name="manaCost" column="mana_cost" />
+        <field name="type" column="type" type="integer" />
+        <field name="subtype" column="subtype" />
+        <field name="typeLine" column="type_line" type="integer" />
+        <field name="flavorText" column="flavor_text" type="integer" />
+    </entity>
+</doctrine-mapping>
