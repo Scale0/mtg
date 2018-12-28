@@ -1,6 +1,7 @@
 <tr>
     <td><a data-toggle="popover" data-img="{{ collectionRow.card.faces.first.ImgUrl }}" href="{{ path('mtg_card_getcard', {'set': collectionRow.card.cardSet.code, 'collectionId': collectionRow.card.CollectionId}) }}">{{ collectionRow.card.name }} ({{ collectionRow.amount }})</a></td>
     <td><img class="symbol" src="{{ collectionRow.card.cardSet.icon }}"> {{ collectionRow.card.cardSet.name }}</td>
+    <td style="display:none;">{{ collectionRow.card.cardSet.code }}</td>
     <td>{{ collectionRow.card.rarity }}</td>
     <td>{{ collectionRow.card.faces.first.manaCost|symbol }}</td>
     {% if ownCollection %}

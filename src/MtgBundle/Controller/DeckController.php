@@ -65,7 +65,7 @@ class DeckController extends Controller
             $deck = $this->deckService->getDeck($request->request->get('deck'), $this->getUser());
             $card = $this->cardService->get($request->request->get('set'), $request->request->get('card'));
             $amount = $request->request->get('amount');
-            for ($i = 0; $i <= $amount; $i++) {
+            for ($i = 1; $i <= $amount; $i++) {
                 $this->deckService->addCardToDeck($deck, $card);
             }
             return $this->redirectToRoute('mtg_deck_view', ['id' => $deck->getId()]);
@@ -84,6 +84,9 @@ class DeckController extends Controller
         $deck = $this->deckService->getDeck($id);
         if (!$deck) {
             die('deck bestaat niet');
+        }
+        if (!$deckCards) {
+            die('geen kaarten in deck!');
         }
         $charts = $this->deckService->buildCharts($deck);
 

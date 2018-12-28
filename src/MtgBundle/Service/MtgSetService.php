@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sjoerddewaard
- * Date: 07-05-18
- * Time: 19:36
- */
 
 namespace MtgBundle\Service;
 
