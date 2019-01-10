@@ -95,9 +95,9 @@ class Card
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -107,7 +107,7 @@ class Card
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -127,7 +127,7 @@ class Card
      *
      * @return $this
      */
-    public function setSet(CardSet $set)
+    public function setSet(CardSet $set): self
     {
         $this->set = $set;
 
@@ -147,7 +147,7 @@ class Card
      *
      * @return $this
      */
-    public function setRarity($rarity)
+    public function setRarity($rarity): self
     {
         $this->rarity = $rarity;
 
@@ -167,7 +167,7 @@ class Card
      *
      * @return $this
      */
-    public function setConvertedManaCost($convertedManaCost)
+    public function setConvertedManaCost($convertedManaCost): self
     {
         $this->convertedManaCost = $convertedManaCost;
 
@@ -187,7 +187,7 @@ class Card
      *
      * @return $this
      */
-    public function setLegality($legality)
+    public function setLegality($legality): self
     {
         $this->legality = Legality::create($legality);
 
@@ -203,11 +203,11 @@ class Card
     }
 
     /**
-     * @param CardFace $faces
+     * @param CardFace $face
      *
      * @return $this
      */
-    public function addFace(CardFace $face)
+    public function addFace(CardFace $face): self
     {
         Assertion::nullOrIsInstanceOf($face, CardFace::class);
         if ($this->faces->count() <= 1) {
