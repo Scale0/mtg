@@ -51,14 +51,21 @@ class MtgCardService extends MtgService
                     ->setTypeLine($cardFace['type_line'] ?? null)
                     ->setPower($cardFace['power'] ?? null)
                     ->setToughness($cardFace['toughness'] ?? null)
-                    ->setColors($cardFace['colors'] ?? null)
                     ->setFlavorText($cardFace['flavor_text'] ?? null)
-                    ->setImgUrl($cardFace['image_uris']['normal'])
                     ->setLoyalty($cardFace['loyalty'] ?? null )
                     ->setManaCost($cardFace['mana_cost'] ?? null)
                     ->setOracleText($cardFace['oracle_text'] ?? null)
                     ->setCard($card)
                 ;
+                if ($apiCard['layout'] == 'split') {
+                    $newCardFace->setImgUrl($apiCard['image_uris']['normal'])
+                                ->setColors($apiCard['colors'] ?? null)
+                    ;
+                } else {
+                    $newCardFace->setImgUrl($cardFace['image_uris']['normal'])
+                                ->setColors($cardFace['colors'] ?? null)
+                    ;
+                }
                 $card->addCardFace($newCardFace);
             }
         } else {
@@ -98,7 +105,6 @@ class MtgCardService extends MtgService
     public function get($cardSet, $collectionId)
     {
         $set = $this->em->getRepository('MtgBundle:CardSet')->findOneByCode($cardSet);
-
         $existingCard = $this->em->getRepository('MtgBundle:Card')
             ->getBySetAndCollection($set, $collectionId)
         ;

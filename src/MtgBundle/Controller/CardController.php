@@ -28,7 +28,6 @@ class CardController extends Controller
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 #            return $this->redirectToRoute('mtg_user_index', [''])
         }
-        dump($this->getUser());die();
         return $this->render('MtgBundle:Card:index.html.twig');
     }
 

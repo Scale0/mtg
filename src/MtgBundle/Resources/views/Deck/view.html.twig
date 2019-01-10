@@ -1,24 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+{% set CardCount = 0 %}
+{% for card in cards %}
+    {% set CardCount = CardCount + card.amount %}
+{% endfor %}
 <div class="container" id="deckviewtable">
     <div class="row">
-        <div class="col-md-12"><h1>{{ deck.name }} - {{ deck.user.userName }}</h1></div>
+        <div class="col-md-12"><h1>{{ deck.name }} -  {{ CardCount }} kaarten deck</h1></div>
     </div>
     <div class="row">
         <div class="col-md-8">
             <div class="col-md-6">
             {% set currentType = '' %}
             {% set i = 0 %}
+            {% set nextColumn = 0 %}
             {% for card in cards %}
                 {% if i == (cards|length / 2)|round(0, 'floor') %}
-                    </div><div class="col-md-6">
+                    {% set nextColumn = 1 %}
                 {% endif %}
                 {% set i = i + 1 %}
                 {% if currentType != card.card.faces.first.type %}
+                    {% if nextColumn %}
+                        </div><div class="col-md-6">
+                    {% endif %}
                     {% set currentType = card.card.faces.first.type %}
-
                     <div class="row">
                         <div class="col-md-12">
                             <h3>{{ currentType }}</h3>
